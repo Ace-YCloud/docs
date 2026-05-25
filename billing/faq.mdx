@@ -1,0 +1,71 @@
+---
+title: "Billing FAQ"
+description: "Answers to common questions about YCloud billing, including amount freezing, low balance behaviour, and subscription expiry."
+---
+
+<AccordionGroup>
+  <Accordion title="How am I charged for WhatsApp messages?">
+    You are charged per **conversation**, not per message. A conversation is a 24-hour window that begins when the first message is sent (either by your business or by the customer).
+
+    The charge for a conversation depends on:
+    - The **category** of the conversation (Marketing, Utility, Authentication, or Service).
+    - The **country** of the recipient's phone number.
+
+    Within a single 24-hour window, any number of messages can be exchanged at no additional cost. When the window closes, the next message sent opens a new conversation and incurs a new charge.
+  </Accordion>
+
+  <Accordion title="What is amount freezing?">
+    When you send a message, YCloud pre-authorises (freezes) an amount from your account balance equal to the estimated cost of the conversation. This ensures sufficient funds are available before the message is delivered.
+
+    Once the delivery outcome is confirmed:
+    - If the message is **delivered successfully**, the frozen amount is permanently deducted from your balance.
+    - If the message **fails to deliver**, the frozen amount is released and returned to your available balance.
+
+    Frozen amounts are not immediately deducted — they are held while the delivery is in progress.
+  </Accordion>
+
+  <Accordion title="What happens if my balance is too low to cover a frozen amount?">
+    If your available balance is insufficient to cover the frozen amount for a new send, the message will fail and no charge is applied. You need to recharge your balance before attempting to send again.
+
+    To prevent this, configure a [low balance alert](/billing/overview#low-balance-alerts) so you are notified before your balance runs out.
+  </Accordion>
+
+  <Accordion title="Why was an amount frozen but not released after a failed message?">
+    Frozen amounts are released once YCloud receives the final delivery status from WhatsApp. In some cases, delivery status can take several minutes to arrive. If you see a frozen amount that has not resolved after a reasonable period, check the message status in your message logs. If the issue persists, contact YCloud support.
+  </Accordion>
+
+  <Accordion title="Do I get charged for messages that are not delivered?">
+    No. If a message fails to deliver (for example, because the recipient's phone is off or the number is invalid), the frozen amount is released and you are not charged for that conversation.
+
+    Note that if the message is delivered but the recipient simply does not read it, the conversation charge still applies.
+  </Accordion>
+
+  <Accordion title="What happens when my subscription expires?">
+    When your subscription plan expires, a **15-day buffer period** begins automatically. During this period:
+    - Your account remains accessible.
+    - You can continue using paid features.
+    - You should renew your subscription to avoid interruption.
+
+    After the 15-day buffer period ends, access to premium features is suspended. Your data and contacts are preserved and will be accessible again once you renew.
+  </Accordion>
+
+  <Accordion title="Can I set up automatic recharging?">
+    YCloud supports automatic top-up for some payment methods. When your balance drops below a threshold, your stored payment method is charged and the balance is topped up automatically. Check **Pricing and Billing > Billing and Recharge** to see if auto-recharge is available for your account and payment method.
+  </Accordion>
+
+  <Accordion title="How do I set up a low balance alert?">
+    Navigate to **Pricing and Billing > Low Balance Alert**. Set the balance threshold and enter one or more email addresses to notify. When your balance drops below the threshold, an alert email is sent to the configured addresses.
+  </Accordion>
+
+  <Accordion title="Where can I see my billing history?">
+    Navigate to **Pricing and Billing > Billing and Recharge** to view your recharge history, balance transactions, and invoice records.
+  </Accordion>
+
+  <Accordion title="Are service conversations (customer-initiated) charged differently?">
+    Yes. Service conversations — opened when a customer sends a message to your business first — are billed at a different (typically lower) rate than business-initiated Marketing, Utility, or Authentication conversations. Pricing varies by country. See the rate card in your YCloud account for exact figures.
+  </Accordion>
+
+  <Accordion title="What currencies does YCloud support?">
+    YCloud supports billing in USD. Contact your account manager or YCloud support if you have questions about currency or payment methods available in your region.
+  </Accordion>
+</AccordionGroup>

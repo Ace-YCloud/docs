@@ -1,0 +1,77 @@
+---
+title: "Rate limits"
+description: "Understand YCloud API rate limits and how to implement a retry strategy with exponential backoff."
+---
+
+The YCloud API enforces rate limits to maintain reliability for all customers. When you exceed the limit, the API returns a `429 Too Many Requests` response.
+
+## Rate limit response
+
+When you hit a rate limit, the response looks like this:
+
+```json
+{
+  "code": "rate_limit_exceeded",
+  "message": "Too many requests. Please retry after 1 second."
+}
+```
+
+The response may include a `Retry-After` header indicating how many seconds to wait before retrying.
+
+## Handling 429 responses
+
+When your code receives a `429`, do not retry immediately. Instead, implement exponential backoff:
+
+1. Wait for the duration specified in `Retry-After` (if present).
+2. If no header is present, wait at least 1 second before the first retry.
+3. Double the wait time on each subsequent retry.
+4. Add random jitter (±10–20%) to avoid synchronized retries from multiple clients.
+5. Stop retrying after a maximum number of attempts (e.g., 5).
+
+## Exponential backoff example
+
+<CodeGroup>
+
+```javascript Node.js
+async function requestWithBackoff(fn, maxRetries = 5) {
+  let delay = 1000; // start with 1 second
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      if (err.status !== 429 || attempt === maxRetries) throw err;
+      const jitter = delay * (0.8 + Math.random() * 0.4);
+      await new Promise((resolve) => setTimeout(resolve, jitter));
+      delay *= 2;
+    }
+  }
+}
+```
+
+```python Python
+import time
+import random
+import requests
+
+def request_with_backoff(fn, max_retries=5):
+    delay = 1.0
+    for attempt in range(max_retries + 1):
+        response = fn()
+        if response.status_code != 429 or attempt == max_retries:
+            return response
+        jitter = delay * (0.8 + random.random() * 0.4)
+        time.sleep(jitter)
+        delay *= 2
+```
+
+</CodeGroup>
+
+## Best practices
+
+<Tip>
+  Batch operations where possible. For example, rather than sending 1,000 individual API calls in a tight loop, introduce a small delay between calls or use the enqueue endpoint for WhatsApp messages.
+</Tip>
+
+- Cache resources (templates, phone numbers) locally instead of fetching them on every request.
+- Use webhooks to receive real-time updates instead of polling the API.
+- Distribute traffic evenly rather than sending bursts at the start of each minute.

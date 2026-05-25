@@ -1,0 +1,137 @@
+---
+title: "Campaigns"
+description: "Create and send WhatsApp marketing campaigns, schedule sends, track button clicks, and analyze delivery and engagement data."
+---
+
+Campaigns let you send approved WhatsApp message templates to a list of contacts in bulk. You can send immediately or schedule for a future time, personalize messages with variables, and track delivery and engagement results.
+
+<Note>
+  WhatsApp campaigns require Meta-approved message templates. Sending unsolicited promotional messages to users who have not opted in can result in account suspension. Always obtain proper consent before messaging contacts.
+</Note>
+
+## Creating a campaign
+
+### Step 1: Create a marketing template
+
+<Steps>
+  <Step title="Open Templates">
+    Log in to YCloud and navigate to **Home** > **Templates** > **+ Add Template**.
+  </Step>
+  <Step title="Set the category and name">
+    Select **Marketing** as the category. Enter a template name and choose a language.
+
+    <Warning>
+      Template names must be unique and can only contain lowercase letters (a–z), digits (0–9), and underscores. Once submitted, the name cannot be changed.
+    </Warning>
+  </Step>
+  <Step title="Enter the message content">
+    Marketing messages can include:
+    - Promotional or discount offers
+    - Welcome or closing messages (e.g., "Thank you for shopping at [store name]")
+    - Updates, invitations, or event announcements
+
+    Add call-to-action buttons or quick reply buttons to make your message actionable.
+  </Step>
+  <Step title="Submit for approval">
+    Click **Submit** and wait for Meta to approve the template before using it in a campaign.
+  </Step>
+</Steps>
+
+### Step 2: Create a campaign
+
+<Steps>
+  <Step title="Open Campaign">
+    Navigate to **Campaign** > **+ Add Campaign** > **WhatsApp**.
+  </Step>
+  <Step title="Fill in campaign details">
+    Complete the following fields:
+
+    | Field | Description |
+    |---|---|
+    | Campaign name | Enter a name, or use the default |
+    | Sender | The phone number connected through the embedded sign-up process |
+    | Template | Select the Meta-approved template and language |
+    | Send time | Send immediately or schedule a future date and time |
+
+    Click **Next** to proceed to recipient selection.
+  </Step>
+  <Step title="Choose recipients">
+    YCloud offers three ways to specify recipients:
+
+    <AccordionGroup>
+      <Accordion title="Manual input">
+        Enter phone numbers directly in the box, one per line in international format (e.g., +447759398257 for a UK number).
+
+        **Limitation:** When using manual input with a template that has variables, all recipients receive the same fixed variable value. For personalized variables, use CSV upload instead.
+      </Accordion>
+      <Accordion title="Upload CSV">
+        Download the CSV template, fill in phone numbers in the first column (named "phone"), and add variable columns starting from the second column if your template uses variables.
+
+        For example, if your template says "Hi, \{\{name\}\}", add a column named "name" with each recipient's value.
+
+        CSV upload is the recommended method when your template contains variables.
+      </Accordion>
+      <Accordion title="Contact filter">
+        Select recipients from your existing YCloud contacts using one of two filter options:
+
+        - **Contact segment:** Choose one or more saved segments (up to 10 simultaneously).
+        - **Contact attributes:** Add filter criteria based on contact properties/traits. Contacts matching all criteria become the campaign recipients.
+      </Accordion>
+    </AccordionGroup>
+  </Step>
+  <Step title="Set variables">
+    If your template includes a media header or body variables, configure them in this step:
+
+    - **Headers:** Replace the default example media with your own to improve review chances.
+    - **Variables:** Upload your file with variable data and map each template variable to the corresponding column. Alternatively, set a variable to a fixed text value that applies to all recipients.
+
+    If your template has no variables, this step is skipped automatically.
+  </Step>
+  <Step title="Review and submit">
+    Check the campaign details and preview the message. Click **Submit** to complete the campaign submission.
+  </Step>
+</Steps>
+
+## Tracking button clicks
+
+You can track clicks on the "Visit Website" button in utility and marketing templates.
+
+<Steps>
+  <Step title="Enable button tracking in the template">
+    When creating or editing a template, locate the button settings and enable **Button tracking** for the "Visit Website" button.
+  </Step>
+  <Step title="Run the campaign">
+    Create and send your campaign using the template with button tracking enabled.
+  </Step>
+  <Step title="View click data">
+    After the campaign runs, navigate to the campaign's analytics page to view button click counts and related data.
+  </Step>
+</Steps>
+
+<Tip>
+  Button tracking is useful for measuring how many recipients clicked through to your website, helping you calculate conversion rates from WhatsApp campaigns.
+</Tip>
+
+## Analyzing campaign data
+
+After a campaign completes, view delivery and engagement data in the backend.
+
+<Steps>
+  <Step title="Open campaign analytics">
+    Navigate to **Campaign** > find your campaign > **Action** > **Analytics**.
+  </Step>
+  <Step title="Review metrics and export">
+    The analytics page shows the following data:
+
+    | Status | Explanation |
+    |---|---|
+    | Sent | Total number of messages sent for the campaign |
+    | Processing | Messages sent but not yet successfully received — may be due to network issues or the app not being opened |
+    | Delivered | Messages successfully received by the recipient's device |
+    | Failed | Messages that failed to send; click the **?** next to Failed to see specific failure reasons |
+    | Read | Messages that have been read by the end user |
+    | Replied | Messages replied to by the end user within 24 hours of successful receipt |
+
+    Click **Export** to download the data for further analysis in your own tools.
+  </Step>
+</Steps>

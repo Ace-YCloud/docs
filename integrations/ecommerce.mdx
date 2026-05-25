@@ -1,0 +1,55 @@
+---
+title: "E-commerce"
+description: "Connect your online store to YCloud to automate order notifications and manage customer conversations via WhatsApp."
+---
+
+YCloud's e-commerce integration connects your online store to your WhatsApp communication flows. Once connected, you can automatically notify customers about order confirmations, shipping updates, and delivery status — and handle inbound support queries in Inbox.
+
+## Shopify integration
+
+Shopify is the primary supported e-commerce platform. Connecting Shopify lets you:
+
+- Trigger WhatsApp message templates automatically when order events occur (order placed, shipped, delivered, cancelled).
+- Sync customer data between Shopify and your YCloud contact database.
+- Route customer replies to your Inbox for agent follow-up.
+
+### Connect your Shopify store
+
+<Steps>
+  <Step title="Open the E-commerce settings">
+    Navigate to **Settings > Integrations > E-commerce** in your YCloud account.
+  </Step>
+  <Step title="Select Shopify">
+    Click **Connect Shopify Store**.
+  </Step>
+  <Step title="Authenticate">
+    Enter your Shopify store domain (e.g. `yourstore.myshopify.com`) and follow the OAuth flow to grant YCloud the required permissions.
+  </Step>
+  <Step title="Map events to templates">
+    For each order event you want to automate, select the WhatsApp message template to send. Templates must be pre-approved before you can select them.
+  </Step>
+  <Step title="Enable the integration">
+    Toggle the integration on and save. YCloud will begin sending notifications for new orders immediately.
+  </Step>
+</Steps>
+
+<Note>
+Message templates used for order notifications must be of category **Utility** (for transactional messages such as order confirmations and shipping updates). Make sure your templates are approved before enabling the integration.
+</Note>
+
+## Other e-commerce platforms
+
+If you use a different e-commerce platform, you can achieve similar functionality using:
+
+- **Webhooks** — Configure your platform to send order events to a YCloud webhook URL, then use the API to trigger the appropriate message template.
+- **n8n** — Build a no-code workflow that connects your e-commerce platform to YCloud via the n8n integration.
+
+See [Webhooks](/integrations/webhooks) and [Integrations overview](/integrations/overview) for details.
+
+## Order notifications with WhatsApp Pay
+
+If you are using YCloud's WhatsApp Pay feature, you can also send order detail messages with embedded checkout buttons, allowing customers to complete purchases directly within WhatsApp.
+
+## Coupons
+
+YCloud supports sending personalised coupon codes in campaign messages. Coupon codes can be imported or generated and embedded in message templates as variables. Navigate to **Settings > Integrations > Coupons** to manage your coupon pools.

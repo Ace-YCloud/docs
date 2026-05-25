@@ -1,0 +1,131 @@
+---
+title: "Journey"
+description: "Automate customer messaging sequences with Journey — trigger actions based on customer behavior, send templates, add tags, and set wait times."
+---
+
+## What is Journey?
+
+Journey is an automation process that triggers a series of actions based on customer behavior. You can use it to send messages to customers who have triggered an event, automatically tag them, and more.
+
+**Example use cases:**
+
+- **E-commerce:** Send lifecycle notifications such as subscription success, abandoned cart reminders, order confirmations, shipping updates, and cancellation alerts.
+- **App activation:** When a customer registers but has not activated the app after N days, automatically send a message to encourage activation.
+
+## Creating a journey
+
+<Steps>
+  <Step title="Open Journey">
+    In YCloud, navigate to **Journey**.
+  </Step>
+  <Step title="Create a new journey">
+    Click **Create Journey**. You can start from a pre-built template or build a custom journey from scratch.
+  </Step>
+  <Step title="Set the activity name">
+    Give the journey a descriptive name so you can identify it in the list.
+  </Step>
+  <Step title="Configure the trigger">
+    The trigger defines which customers enter the journey and under what conditions. All trigger conditions must be met for a customer to enter.
+
+    | Setting | Description | Required |
+    |---|---|---|
+    | Event | The condition that, when met, triggers the journey | Yes |
+    | Sender | The WhatsApp number used to send messages (templates are drawn from the associated WABA) | Yes |
+    | Audience | Additional conditions on the customer; if not set, no extra filtering is applied | No |
+    | Filter unsubscribed customers | When enabled, customers on the unsubscribed list are excluded | No |
+    | Customer trigger limit | Either "trigger only once per user" or "trigger every time conditions are met" | Yes |
+  </Step>
+  <Step title="Design the flow">
+    Drag and connect components on the canvas to build your automation. Components execute in the order they are connected.
+  </Step>
+  <Step title="Save and activate">
+    Click **Save** in the upper right corner. Optionally set **Goals** and **Exit Rules**, then set the journey status to **Active** and save.
+
+    <Warning>
+      If component settings contain errors, red-framed components will appear. Check the error prompts, fix the issues, and use the check button in the upper right corner to validate before activating.
+    </Warning>
+  </Step>
+</Steps>
+
+## Journey components
+
+### Trigger
+
+The trigger is the entry point of a journey. It activates the flow when a customer meets all the configured conditions.
+
+**Exit trigger (optional):** When a customer enters a journey, the system continuously checks if exit criteria are met. If they are, the customer immediately exits the journey regardless of their current stage — no further components execute.
+
+**Goal (optional):** Used to measure journey effectiveness. The system tracks whether customers meet goal criteria after entering the journey. When a customer meets the criteria, the goal completion count increases by one.
+
+<Note>
+  Completing a goal does not cause a customer to exit the journey. Exit only happens when exit trigger criteria are met, or after the last component executes.
+</Note>
+
+### Send template
+
+Sends a WhatsApp message template to the customer. Search for a template by name in the input field. Available templates come from the WABA associated with the phone number selected in the trigger.
+
+If the template contains variables, you must set the variable values in this component. Templates without variables require no additional setup.
+
+<Note>
+  If no templates appear in the dropdown, verify that the correct phone number is selected in the trigger.
+</Note>
+
+### Message status rule
+
+Branches the journey flow based on how a customer responded to a sent template. Supports checking **read** and **replied** statuses.
+
+**Settings:**
+- **Template to be judged:** Select which sent template to evaluate.
+- **Waiting time:** The window in which the system checks for the target status.
+- **Branch 1:** Path taken when the target status is met within the waiting time.
+- **Branch 2:** Path taken when the target status is not met after the waiting time ends.
+
+**Example:** After sending a welcome message — for customers who reply, send an activation message. For those who receive the message but do not reply, take no further action.
+
+**Adding a message status rule:**
+
+You can add it directly from the Send template component (hover over the connection node to see quick-add options for read/replied), or add it manually from the component panel and configure it yourself.
+
+### Add tag
+
+Automatically applies one or more tags to a customer when this component executes. To create a new tag, type the tag name in the input box and press Enter. Multiple tags are supported.
+
+### Wait
+
+Pauses the journey for a specified duration before moving to the next component. Supports wait times from **1 minute to 100 days**.
+
+Use a Wait component between a trigger and a send component to give customers time to act before following up.
+
+## Goals and exit conditions
+
+| Feature | Purpose |
+|---|---|
+| Goal | Measures journey effectiveness by counting how many customers meet the target condition after entering the journey. Data only — does not cause exit. |
+| Exit condition | Causes a customer to immediately leave the journey when the condition is met, regardless of which stage they are in. |
+
+## Best practices
+
+### Abandoned checkout automation
+
+This pattern targets customers who started but did not complete checkout.
+
+**Trigger configuration:**
+- **Event:** Contact event — Customer started checkout (pass this event to YCloud via Contact API)
+- **Sender:** Your WhatsApp phone number
+- **Audience:** No additional restrictions typically needed
+- **Filter unsubscribed customers:** Recommended to enable
+- **Customer trigger limit:** "Trigger every time the customer meets the conditions"
+
+**Exit trigger:** Contact event — Customer successfully placed an order
+
+**Goal:** Contact event — Customer successfully placed an order
+
+**Flow:**
+1. Add a **Wait** component after the trigger — set a wait time representing how long you will give the customer to complete checkout on their own.
+2. Add a **Send template** component with a message that creates urgency. For example: "This offer expires today!" or a meaningful discount offer.
+3. Include a link back to the checkout page directly in the message.
+
+<Tip>
+  Use the Message status rule after your message to branch follow-up actions: send an additional message to customers who received but did not reply, and stop messaging customers who completed the purchase (via exit trigger).
+</Tip>

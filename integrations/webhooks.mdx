@@ -1,0 +1,113 @@
+---
+title: "Webhooks"
+description: "How to configure YCloud webhooks to receive real-time event notifications for messages, contacts, and other platform activity."
+---
+
+Webhooks let YCloud push event data to your server in real time. Instead of polling the API, your application receives an HTTP POST request whenever a relevant event occurs.
+
+## Setting up a webhook
+
+<Steps>
+  <Step title="Open the Webhooks page">
+    Navigate to **Settings > Integrations > Webhook** in your YCloud account.
+  </Step>
+  <Step title="Add a new endpoint">
+    Click **Add Webhook** and enter your endpoint URL. The URL must be publicly accessible over HTTPS.
+  </Step>
+  <Step title="Select events">
+    Choose which event types you want to subscribe to. You can subscribe to all events or select specific ones.
+  </Step>
+  <Step title="Save">
+    Click **Save**. YCloud will immediately begin sending events to your endpoint.
+  </Step>
+</Steps>
+
+<Note>
+Your endpoint must respond with an HTTP `2xx` status code within the timeout window. If it does not, YCloud will retry the delivery.
+</Note>
+
+## Available events
+
+| Event type | Description |
+|---|---|
+| `whatsapp.inbound_message.received` | A customer sent a message to your WhatsApp number. |
+| `whatsapp.message.updated` | A message status changed (sent, delivered, read, failed). |
+| `contact.created` | A new contact was added to your database. |
+| `contact.updated` | An existing contact's data was changed. |
+
+<Note>
+The full list of event types and payload schemas is documented in the [YCloud API reference](https://docs.ycloud.com/reference/introduction).
+</Note>
+
+## Payload format
+
+Webhook payloads are delivered as JSON via HTTP POST. Each request includes the event type and the relevant object data.
+
+Example inbound message payload:
+
+```json
+{
+  "type": "whatsapp.inbound_message.received",
+  "data": {
+    "id": "msg_01H...",
+    "from": "+14155550100",
+    "to": "+14155550200",
+    "timestamp": "2024-01-15T10:30:00Z",
+    "type": "text",
+    "text": {
+      "body": "Hello, I need help with my order."
+    }
+  }
+}
+```
+
+Example message status update payload:
+
+```json
+{
+  "type": "whatsapp.message.updated",
+  "data": {
+    "id": "msg_01H...",
+    "status": "delivered",
+    "timestamp": "2024-01-15T10:30:05Z",
+    "to": "+14155550100"
+  }
+}
+```
+
+## Security
+
+YCloud signs each webhook request with an HMAC-SHA256 signature using your webhook secret. The signature is included in the `X-YCloud-Signature` header.
+
+To verify the signature on your server:
+
+1. Retrieve the raw request body as a byte string.
+2. Compute `HMAC-SHA256(secret, body)` where `secret` is your webhook secret from the YCloud dashboard.
+3. Compare the result to the value in `X-YCloud-Signature`. If they match, the request is authentic.
+
+```python
+import hmac
+import hashlib
+
+def verify_signature(secret: str, body: bytes, signature_header: str) -> bool:
+    expected = hmac.new(
+        secret.encode(),
+        body,
+        hashlib.sha256
+    ).hexdigest()
+    return hmac.compare_digest(expected, signature_header)
+```
+
+<Warning>
+Always verify the signature before processing webhook payloads. Without verification, a malicious actor could send fake events to your endpoint.
+</Warning>
+
+## Retry logic
+
+If your endpoint returns a non-`2xx` response or does not respond within the timeout, YCloud will retry the delivery with exponential backoff. Retries stop after a defined number of attempts.
+
+To avoid processing the same event twice, make your event handler idempotent — use the event's `id` field to deduplicate incoming requests.
+
+## Testing your endpoint
+
+During development, tools like [ngrok](https://ngrok.com) let you expose a local server to the internet so you can receive webhook events without deploying. Configure the ngrok URL as your webhook endpoint in YCloud while testing.

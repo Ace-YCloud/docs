@@ -1,0 +1,172 @@
+---
+title: "Unsubscribers"
+description: "Manage opt-outs: create, list, retrieve, and delete unsubscriber records per channel."
+---
+
+The Unsubscribers API manages opt-outs for your contacts. When a contact unsubscribes from a channel, YCloud will suppress messages to that contact on that channel. Unsubscribers can be created programmatically (when a user requests opt-out via your product) or manually.
+
+## Endpoints
+
+| Method   | Path | Description |
+| -------- | ---- | ----------- |
+| `POST`   | `/unsubscribers` | Create an unsubscriber |
+| `GET`    | `/unsubscribers` | List unsubscribers |
+| `GET`    | `/unsubscribers/allByCustomer` | List all unsubscribers by customer phone number |
+| `GET`    | `/unsubscribers/{phoneNumber}/{channel}` | Retrieve an unsubscriber |
+| `DELETE` | `/unsubscribers/{phoneNumber}/{channel}` | Delete an unsubscriber |
+
+---
+
+## Create an unsubscriber
+
+`POST https://api.ycloud.com/v2/unsubscribers`
+
+Opt out a phone number from a specific channel.
+
+### Request parameters
+
+<ParamField body="phoneNumber" type="string" required>
+  The phone number to opt out, in E.164 format.
+</ParamField>
+
+<ParamField body="channel" type="string" required>
+  The channel to opt out from. One of: `whatsapp`, `sms`, `voice`.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://api.ycloud.com/v2/unsubscribers \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "phoneNumber": "+14155552671",
+    "channel": "whatsapp"
+  }'
+```
+
+```javascript Node.js
+const response = await fetch('https://api.ycloud.com/v2/unsubscribers', {
+  method: 'POST',
+  headers: {
+    'X-API-Key': 'YOUR_API_KEY',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    phoneNumber: '+14155552671',
+    channel: 'whatsapp',
+  }),
+});
+```
+
+</CodeGroup>
+
+### Response fields
+
+<ResponseField name="phoneNumber" type="string">
+  The opted-out phone number.
+</ResponseField>
+
+<ResponseField name="channel" type="string">
+  The channel from which the number is unsubscribed.
+</ResponseField>
+
+<ResponseField name="createTime" type="string">
+  ISO 8601 timestamp when the opt-out was created.
+</ResponseField>
+
+---
+
+## List unsubscribers
+
+`GET https://api.ycloud.com/v2/unsubscribers`
+
+Returns a paginated list of all opt-out records in your account.
+
+<CodeGroup>
+
+```bash cURL
+curl "https://api.ycloud.com/v2/unsubscribers?pageSize=20" \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+```javascript Node.js
+const response = await fetch(
+  'https://api.ycloud.com/v2/unsubscribers?pageSize=20',
+  { headers: { 'X-API-Key': 'YOUR_API_KEY' } }
+);
+```
+
+</CodeGroup>
+
+---
+
+## List all unsubscribers by customer
+
+`GET https://api.ycloud.com/v2/unsubscribers/allByCustomer`
+
+Returns all channels that a specific phone number has opted out of.
+
+### Query parameters
+
+<ParamField query="phoneNumber" type="string" required>
+  The phone number to look up, in E.164 format.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl "https://api.ycloud.com/v2/unsubscribers/allByCustomer?phoneNumber=%2B14155552671" \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+</CodeGroup>
+
+---
+
+## Retrieve an unsubscriber
+
+`GET https://api.ycloud.com/v2/unsubscribers/{phoneNumber}/{channel}`
+
+Checks whether a specific phone number is opted out of a specific channel.
+
+<CodeGroup>
+
+```bash cURL
+curl "https://api.ycloud.com/v2/unsubscribers/%2B14155552671/whatsapp" \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+</CodeGroup>
+
+---
+
+## Delete an unsubscriber
+
+`DELETE https://api.ycloud.com/v2/unsubscribers/{phoneNumber}/{channel}`
+
+Removes the opt-out record, re-subscribing the phone number to that channel.
+
+<Warning>
+  Only remove an opt-out record if the contact has explicitly given consent to receive messages again. Sending messages to contacts who have not re-opted in may violate messaging regulations.
+</Warning>
+
+<CodeGroup>
+
+```bash cURL
+curl -X DELETE \
+  "https://api.ycloud.com/v2/unsubscribers/%2B14155552671/whatsapp" \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+```javascript Node.js
+await fetch(
+  'https://api.ycloud.com/v2/unsubscribers/%2B14155552671/whatsapp',
+  {
+    method: 'DELETE',
+    headers: { 'X-API-Key': 'YOUR_API_KEY' },
+  }
+);
+```
+
+</CodeGroup>

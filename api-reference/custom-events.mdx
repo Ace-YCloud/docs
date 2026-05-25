@@ -1,0 +1,195 @@
+---
+title: "Custom events"
+description: "Define and send custom events to trigger journeys, track behaviour, and personalize messaging."
+---
+
+Custom events let you send structured business events — such as a purchase, subscription change, or support ticket creation — from your systems to YCloud. Once received, events can trigger automation journeys, update contact attributes, and power segmentation.
+
+## Endpoints
+
+| Method   | Path | Description |
+| -------- | ---- | ----------- |
+| `POST`   | `/event/definitions` | Create an event definition |
+| `GET`    | `/event/definitions/{name}` | Retrieve an event definition |
+| `PATCH`  | `/event/definitions/{name}` | Update an event definition |
+| `POST`   | `/event/definitions/{name}/propertyDefinitions` | Create an event property definition |
+| `PATCH`  | `/event/definitions/{name}/propertyDefinitions/{propertyName}` | Update a property definition |
+| `DELETE` | `/event/definitions/{name}/propertyDefinitions/{propertyName}` | Delete a property definition |
+| `POST`   | `/event/events` | Send an event |
+
+---
+
+## Create an event definition
+
+Before you can send an event, you must create a definition that names the event and declares its properties.
+
+`POST https://api.ycloud.com/v2/event/definitions`
+
+<ParamField body="name" type="string" required>
+  Unique identifier for the event type (e.g., `order.placed`, `subscription.upgraded`). Use lowercase letters, numbers, and dots or underscores.
+</ParamField>
+
+<ParamField body="displayName" type="string">
+  Human-readable label shown in the YCloud dashboard.
+</ParamField>
+
+<ParamField body="description" type="string">
+  Optional description of what this event represents.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://api.ycloud.com/v2/event/definitions \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "order.placed",
+    "displayName": "Order Placed",
+    "description": "Fired when a customer completes a purchase."
+  }'
+```
+
+```javascript Node.js
+const response = await fetch(
+  'https://api.ycloud.com/v2/event/definitions',
+  {
+    method: 'POST',
+    headers: {
+      'X-API-Key': 'YOUR_API_KEY',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name: 'order.placed',
+      displayName: 'Order Placed',
+      description: 'Fired when a customer completes a purchase.',
+    }),
+  }
+);
+```
+
+</CodeGroup>
+
+---
+
+## Create a property definition
+
+`POST https://api.ycloud.com/v2/event/definitions/{name}/propertyDefinitions`
+
+Adds a typed property to an event definition.
+
+<ParamField body="name" type="string" required>
+  Property key name (e.g., `orderId`, `totalAmount`).
+</ParamField>
+
+<ParamField body="displayName" type="string">
+  Human-readable label for this property.
+</ParamField>
+
+<ParamField body="type" type="string" required>
+  Property type: `string`, `number`, `boolean`, `date`.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST \
+  https://api.ycloud.com/v2/event/definitions/order.placed/propertyDefinitions \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "orderId",
+    "displayName": "Order ID",
+    "type": "string"
+  }'
+```
+
+</CodeGroup>
+
+---
+
+## Send an event
+
+`POST https://api.ycloud.com/v2/event/events`
+
+Sends a single event occurrence to YCloud, linked to a contact by phone number or contact ID.
+
+<ParamField body="name" type="string" required>
+  The event definition name (e.g., `order.placed`).
+</ParamField>
+
+<ParamField body="contactPhoneNumber" type="string">
+  The contact's phone number in E.164 format. Used to associate the event with a contact.
+</ParamField>
+
+<ParamField body="contactId" type="string">
+  The YCloud contact ID. Use this instead of `contactPhoneNumber` if you have it.
+</ParamField>
+
+<ParamField body="properties" type="object">
+  Key-value pairs matching the property definitions on this event.
+</ParamField>
+
+<ParamField body="occurTime" type="string">
+  ISO 8601 timestamp of when the event actually occurred. Defaults to the current time.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://api.ycloud.com/v2/event/events \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "order.placed",
+    "contactPhoneNumber": "+14155552671",
+    "properties": {
+      "orderId": "ORD-99812",
+      "totalAmount": 149.99
+    }
+  }'
+```
+
+```javascript Node.js
+await fetch('https://api.ycloud.com/v2/event/events', {
+  method: 'POST',
+  headers: {
+    'X-API-Key': 'YOUR_API_KEY',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    name: 'order.placed',
+    contactPhoneNumber: '+14155552671',
+    properties: {
+      orderId: 'ORD-99812',
+      totalAmount: 149.99,
+    },
+  }),
+});
+```
+
+```python Python
+import requests
+
+requests.post(
+    'https://api.ycloud.com/v2/event/events',
+    headers={
+        'X-API-Key': 'YOUR_API_KEY',
+        'Content-Type': 'application/json',
+    },
+    json={
+        'name': 'order.placed',
+        'contactPhoneNumber': '+14155552671',
+        'properties': {
+            'orderId': 'ORD-99812',
+            'totalAmount': 149.99,
+        },
+    },
+)
+```
+
+</CodeGroup>
+
+<Tip>
+  Use custom events to trigger WhatsApp message journeys automatically. For example, fire `order.placed` and configure a journey in YCloud to send an order confirmation template message.
+</Tip>

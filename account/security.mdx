@@ -1,0 +1,64 @@
+---
+title: "Security"
+description: "Security and privacy settings available in your YCloud account, including login controls, data handling, and access management."
+---
+
+YCloud provides several features to help you protect your account and manage access to sensitive data.
+
+## Account access
+
+### Password management
+
+Each user manages their own password from **Settings > Personal Preferences Settings**. Passwords are hashed and never stored in plain text.
+
+If a user forgets their password, they can use the password reset flow on the login page. An admin cannot set a user's password directly — the reset email goes to the individual user.
+
+### Login protection
+
+<Tip>
+Use a unique, strong password for your YCloud account. If your organisation uses a single sign-on (SSO) provider, contact YCloud support to enquire about SSO integration options.
+</Tip>
+
+### Deactivating users
+
+When a team member leaves, deactivate their account promptly. Navigate to **Settings > Account Management > Users and Teams**, find the user, and deactivate them. Deactivated users cannot log in, but their activity history and contact assignments are retained.
+
+## Data privacy
+
+### Contact data
+
+Contact data stored in YCloud — including phone numbers, names, custom attributes, and conversation history — is accessible to all Admin users and to Agents within their permitted scope.
+
+Agents can only view and manage contacts and conversations according to their role permissions. If you need more granular access control (for example, agents who can only see contacts assigned to them), configure the assignment settings in **Settings > Contact > Owner Assignment**.
+
+### Data retention
+
+Message history and contact data are retained according to YCloud's data retention policy. If you need to export or delete contact data to comply with local privacy regulations (such as GDPR), you can:
+
+- **Export contacts** from **Contact > Export**.
+- **Delete individual contacts** from the contact detail page.
+- **Export the unsubscribe list** from **Contact > Unsubscribe > Export**.
+
+Contact YCloud support if you need a bulk data deletion for compliance purposes.
+
+### WhatsApp data handling
+
+YCloud processes messages on behalf of your business through the WhatsApp Business API. Message content is transmitted over WhatsApp's encrypted infrastructure. YCloud stores message history to enable Inbox functionality and conversation logs.
+
+## API security
+
+If you are using the YCloud API, secure your API keys:
+
+- Do not commit API keys to version control.
+- Rotate keys if you suspect they have been compromised.
+- Use environment variables or a secrets manager to store keys in your application.
+
+You can manage API keys from **Settings > API**.
+
+## Webhook security
+
+Always verify the HMAC-SHA256 signature on incoming webhook requests to ensure they originate from YCloud. See [Webhooks](/integrations/webhooks) for implementation details.
+
+## Notification and alert settings
+
+You can configure email and in-app alerts for account events — such as low balance warnings and failed message deliveries — at **Settings > Account Management > Notification & Alert**.

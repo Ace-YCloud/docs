@@ -1,0 +1,158 @@
+---
+title: "SMS"
+description: "Send SMS messages and retrieve delivery records using the YCloud SMS API."
+---
+
+The YCloud SMS API lets you send text messages to phone numbers worldwide and retrieve historical SMS records.
+
+## Endpoints
+
+| Method | Path | Description |
+| ------ | ---- | ----------- |
+| `POST` | `/sms` | Send an SMS |
+| `GET`  | `/sms` | List SMS records |
+
+---
+
+## Send an SMS
+
+`POST https://api.ycloud.com/v2/sms`
+
+### Request parameters
+
+<ParamField body="to" type="string" required>
+  The recipient's phone number in E.164 format (e.g., `+14155552671`).
+</ParamField>
+
+<ParamField body="text" type="string" required>
+  The message body. Standard SMS supports up to 160 characters per segment; longer messages are sent as multi-part SMS.
+</ParamField>
+
+<ParamField body="senderId" type="string">
+  The sender ID (alphanumeric name or phone number) that appears on the recipient's device. Availability depends on the destination country.
+</ParamField>
+
+<ParamField body="externalId" type="string">
+  Your own identifier for this message, used for deduplication and tracking.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://api.ycloud.com/v2/sms \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "to": "+14155552671",
+    "text": "Your verification code is 123456. Valid for 10 minutes.",
+    "senderId": "YCloud"
+  }'
+```
+
+```javascript Node.js
+const response = await fetch('https://api.ycloud.com/v2/sms', {
+  method: 'POST',
+  headers: {
+    'X-API-Key': 'YOUR_API_KEY',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    to: '+14155552671',
+    text: 'Your verification code is 123456. Valid for 10 minutes.',
+    senderId: 'YCloud',
+  }),
+});
+const sms = await response.json();
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    'https://api.ycloud.com/v2/sms',
+    headers={
+        'X-API-Key': 'YOUR_API_KEY',
+        'Content-Type': 'application/json',
+    },
+    json={
+        'to': '+14155552671',
+        'text': 'Your verification code is 123456. Valid for 10 minutes.',
+        'senderId': 'YCloud',
+    },
+)
+print(response.json())
+```
+
+</CodeGroup>
+
+### Response fields
+
+<ResponseField name="id" type="string">
+  Unique SMS record ID.
+</ResponseField>
+
+<ResponseField name="to" type="string">
+  The recipient's phone number.
+</ResponseField>
+
+<ResponseField name="text" type="string">
+  The message body that was sent.
+</ResponseField>
+
+<ResponseField name="senderId" type="string">
+  The sender ID used.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Delivery status: `accepted`, `sent`, `delivered`, `undelivered`, `failed`.
+</ResponseField>
+
+<ResponseField name="totalPrice" type="number">
+  The total cost charged for this message.
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Currency of the charge (e.g., `USD`).
+</ResponseField>
+
+<ResponseField name="createTime" type="string">
+  ISO 8601 timestamp when the SMS was created.
+</ResponseField>
+
+---
+
+## List SMS records
+
+`GET https://api.ycloud.com/v2/sms`
+
+Returns a paginated list of SMS messages.
+
+### Query parameters
+
+<ParamField query="pageSize" type="number" default="20">
+  Number of records per page (1–100).
+</ParamField>
+
+<ParamField query="pageToken" type="string">
+  Pagination cursor from the previous response's `nextPageToken`.
+</ParamField>
+
+<ParamField query="filter" type="string">
+  Filter expression. For example, `to="+14155552671"`.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl "https://api.ycloud.com/v2/sms?pageSize=20" \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+```javascript Node.js
+const response = await fetch('https://api.ycloud.com/v2/sms?pageSize=20', {
+  headers: { 'X-API-Key': 'YOUR_API_KEY' },
+});
+const { items, nextPageToken } = await response.json();
+```
+
+</CodeGroup>

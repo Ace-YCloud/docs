@@ -1,0 +1,217 @@
+---
+title: "WhatsApp templates"
+description: "Create, list, retrieve, edit, and delete WhatsApp message templates."
+---
+
+WhatsApp message templates are pre-approved message formats required for sending outbound messages to users outside the 24-hour customer service window. Templates are created through the YCloud API and reviewed by Meta before they can be used.
+
+## Endpoints
+
+| Method   | Path | Description |
+| -------- | ---- | ----------- |
+| `POST`   | `/whatsapp/templates` | Create a template |
+| `GET`    | `/whatsapp/templates` | List templates |
+| `GET`    | `/whatsapp/templates/{wabaId}/{name}/{language}` | Retrieve a template |
+| `PATCH`  | `/whatsapp/templates/{wabaId}/{name}/{language}` | Edit a template |
+| `DELETE` | `/whatsapp/templates/{wabaId}/{name}` | Delete templates by name |
+| `DELETE` | `/whatsapp/templates/{wabaId}/{name}/{language}` | Delete a specific template |
+
+---
+
+## Template categories
+
+| Category         | Description                                                          |
+| ---------------- | -------------------------------------------------------------------- |
+| `MARKETING`      | Promotional messages, offers, and announcements.                     |
+| `UTILITY`        | Transactional messages such as order confirmations and alerts.       |
+| `AUTHENTICATION` | OTP and verification code messages.                                  |
+
+---
+
+## Create a template
+
+`POST https://api.ycloud.com/v2/whatsapp/templates`
+
+### Request parameters
+
+<ParamField body="wabaId" type="string" required>
+  The WhatsApp Business Account ID to create the template under.
+</ParamField>
+
+<ParamField body="name" type="string" required>
+  Template name in lowercase letters, numbers, and underscores. Must be unique within your WABA.
+</ParamField>
+
+<ParamField body="language" type="string" required>
+  Template language code (e.g., `en`, `en_US`, `es`, `pt_BR`).
+</ParamField>
+
+<ParamField body="category" type="string" required>
+  Template category: `MARKETING`, `UTILITY`, or `AUTHENTICATION`.
+</ParamField>
+
+<ParamField body="components" type="array" required>
+  Array of template component objects defining the template structure.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://api.ycloud.com/v2/whatsapp/templates \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "wabaId": "waba_01h9xyz",
+    "name": "order_confirmation",
+    "language": "en",
+    "category": "UTILITY",
+    "components": [
+      {
+        "type": "HEADER",
+        "format": "TEXT",
+        "text": "Order Confirmed"
+      },
+      {
+        "type": "BODY",
+        "text": "Hi {{1}}, your order {{2}} has been confirmed and will be delivered within 3-5 business days."
+      },
+      {
+        "type": "FOOTER",
+        "text": "Reply STOP to unsubscribe"
+      },
+      {
+        "type": "BUTTONS",
+        "buttons": [
+          {
+            "type": "QUICK_REPLY",
+            "text": "Track Order"
+          },
+          {
+            "type": "QUICK_REPLY",
+            "text": "Contact Support"
+          }
+        ]
+      }
+    ]
+  }'
+```
+
+```javascript Node.js
+const response = await fetch('https://api.ycloud.com/v2/whatsapp/templates', {
+  method: 'POST',
+  headers: {
+    'X-API-Key': 'YOUR_API_KEY',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    wabaId: 'waba_01h9xyz',
+    name: 'order_confirmation',
+    language: 'en',
+    category: 'UTILITY',
+    components: [
+      {
+        type: 'HEADER',
+        format: 'TEXT',
+        text: 'Order Confirmed',
+      },
+      {
+        type: 'BODY',
+        text: 'Hi {{1}}, your order {{2}} has been confirmed and will be delivered within 3-5 business days.',
+      },
+      {
+        type: 'FOOTER',
+        text: 'Reply STOP to unsubscribe',
+      },
+      {
+        type: 'BUTTONS',
+        buttons: [
+          { type: 'QUICK_REPLY', text: 'Track Order' },
+          { type: 'QUICK_REPLY', text: 'Contact Support' },
+        ],
+      },
+    ],
+  }),
+});
+```
+
+</CodeGroup>
+
+### Response fields
+
+<ResponseField name="wabaId" type="string">
+  The WhatsApp Business Account ID.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Template name.
+</ResponseField>
+
+<ResponseField name="language" type="string">
+  Template language code.
+</ResponseField>
+
+<ResponseField name="category" type="string">
+  Template category.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Approval status: `PENDING`, `APPROVED`, `REJECTED`, `PAUSED`, `DISABLED`.
+</ResponseField>
+
+<ResponseField name="components" type="array">
+  The template components.
+</ResponseField>
+
+---
+
+## List templates
+
+`GET https://api.ycloud.com/v2/whatsapp/templates`
+
+Returns a paginated list of all templates across your WABAs.
+
+<CodeGroup>
+
+```bash cURL
+curl "https://api.ycloud.com/v2/whatsapp/templates?pageSize=20" \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+```javascript Node.js
+const response = await fetch(
+  'https://api.ycloud.com/v2/whatsapp/templates?pageSize=20',
+  { headers: { 'X-API-Key': 'YOUR_API_KEY' } }
+);
+```
+
+</CodeGroup>
+
+---
+
+## Edit a template
+
+`PATCH https://api.ycloud.com/v2/whatsapp/templates/{wabaId}/{name}/{language}`
+
+Updates the components of an existing template. Only `PENDING` and `REJECTED` templates can be edited; `APPROVED` templates have limited editability.
+
+<Note>
+  After editing a template, it may be re-submitted to Meta for approval. The `status` field will change to `PENDING`.
+</Note>
+
+---
+
+## Delete a template
+
+`DELETE https://api.ycloud.com/v2/whatsapp/templates/{wabaId}/{name}/{language}`
+
+Permanently deletes a single template. You cannot delete an `APPROVED` template that is currently in use.
+
+<CodeGroup>
+
+```bash cURL
+curl -X DELETE \
+  "https://api.ycloud.com/v2/whatsapp/templates/waba_01h9xyz/order_confirmation/en" \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+</CodeGroup>

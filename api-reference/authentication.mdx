@@ -1,0 +1,78 @@
+---
+title: "Authentication"
+description: "Authenticate API requests using your YCloud API key in the X-API-Key header."
+---
+
+Every request to the YCloud API must include your API key. The API key is passed as a request header named `X-API-Key`.
+
+## Get your API key
+
+<Steps>
+  <Step title="Log in to the YCloud dashboard">
+    Go to [app.ycloud.com](https://app.ycloud.com) and sign in.
+  </Step>
+  <Step title="Open API settings">
+    Navigate to **Settings → Developer → API Keys**.
+  </Step>
+  <Step title="Create or copy your key">
+    Create a new API key or copy an existing one. Treat your API key like a password — do not commit it to source control.
+  </Step>
+</Steps>
+
+## Sending your API key
+
+Pass the key in the `X-API-Key` header on every request.
+
+<CodeGroup>
+
+```bash cURL
+curl https://api.ycloud.com/v2/balance \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+```javascript Node.js
+const response = await fetch('https://api.ycloud.com/v2/balance', {
+  headers: {
+    'X-API-Key': 'YOUR_API_KEY',
+  },
+});
+const data = await response.json();
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    'https://api.ycloud.com/v2/balance',
+    headers={'X-API-Key': 'YOUR_API_KEY'},
+)
+print(response.json())
+```
+
+```php PHP
+$ch = curl_init('https://api.ycloud.com/v2/balance');
+curl_setopt($ch, CURLOPT_HTTPHEADER, ['X-API-Key: YOUR_API_KEY']);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+$response = curl_exec($ch);
+```
+
+</CodeGroup>
+
+## Invalid or missing key
+
+If the API key is missing or invalid, the API returns a `401 Unauthorized` response.
+
+```json
+{
+  "code": "unauthorized",
+  "message": "Invalid API key provided."
+}
+```
+
+<Warning>
+  Never expose your API key in client-side code or public repositories. Rotate your key immediately if you suspect it has been compromised.
+</Warning>
+
+## Key permissions
+
+API keys currently provide full access to all API endpoints within your YCloud account. Scoped keys (with per-resource permissions) are not supported at this time.

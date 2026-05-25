@@ -1,0 +1,119 @@
+---
+title: "WhatsApp Business Accounts"
+description: "List and retrieve WhatsApp Business Accounts (WABAs) associated with your YCloud account."
+---
+
+A WhatsApp Business Account (WABA) is the top-level account on the Meta platform under which your phone numbers and templates are registered. You may have one or more WABAs depending on your business setup.
+
+## Endpoints
+
+| Method | Path | Description |
+| ------ | ---- | ----------- |
+| `GET`  | `/whatsapp/businessAccounts` | List WABAs |
+| `GET`  | `/whatsapp/businessAccounts/{id}` | Retrieve a WABA |
+
+---
+
+## List WABAs
+
+`GET https://api.ycloud.com/v2/whatsapp/businessAccounts`
+
+Returns a paginated list of all WABAs linked to your YCloud account.
+
+### Query parameters
+
+<ParamField query="pageSize" type="number" default="20">
+  Number of records per page (1–100).
+</ParamField>
+
+<ParamField query="pageToken" type="string">
+  Pagination cursor from the previous response's `nextPageToken`.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl "https://api.ycloud.com/v2/whatsapp/businessAccounts" \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+```javascript Node.js
+const response = await fetch(
+  'https://api.ycloud.com/v2/whatsapp/businessAccounts',
+  { headers: { 'X-API-Key': 'YOUR_API_KEY' } }
+);
+const { items } = await response.json();
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    'https://api.ycloud.com/v2/whatsapp/businessAccounts',
+    headers={'X-API-Key': 'YOUR_API_KEY'},
+)
+```
+
+</CodeGroup>
+
+### Response fields
+
+<ResponseField name="items" type="array">
+  Array of WABA objects.
+  <Expandable title="WABA object properties">
+    <ResponseField name="id" type="string">
+      Unique WABA ID.
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Display name of the WABA as shown in Meta Business Manager.
+    </ResponseField>
+    <ResponseField name="currency" type="string">
+      Billing currency for this WABA (e.g., `USD`).
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      WABA status: `ACTIVE`, `BANNED`, `RESTRICTED`.
+    </ResponseField>
+    <ResponseField name="messagingLimitTier" type="string">
+      Current messaging limit tier (e.g., `TIER_1K`, `TIER_10K`, `TIER_100K`, `UNLIMITED`).
+    </ResponseField>
+    <ResponseField name="qualityRating" type="string">
+      Quality rating assigned by Meta: `GREEN`, `YELLOW`, `RED`.
+    </ResponseField>
+    <ResponseField name="createTime" type="string">
+      ISO 8601 timestamp when the WABA was created.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="nextPageToken" type="string">
+  Token to fetch the next page of results. Absent if this is the last page.
+</ResponseField>
+
+---
+
+## Retrieve a WABA
+
+`GET https://api.ycloud.com/v2/whatsapp/businessAccounts/{id}`
+
+Returns the details of a single WhatsApp Business Account.
+
+<CodeGroup>
+
+```bash cURL
+curl https://api.ycloud.com/v2/whatsapp/businessAccounts/waba_01h9xyz \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+```javascript Node.js
+const response = await fetch(
+  'https://api.ycloud.com/v2/whatsapp/businessAccounts/waba_01h9xyz',
+  { headers: { 'X-API-Key': 'YOUR_API_KEY' } }
+);
+const waba = await response.json();
+```
+
+</CodeGroup>
+
+<Note>
+  The WABA ID is needed when creating templates, phone numbers, and Flows. Store it after initial setup to avoid repeated lookups.
+</Note>

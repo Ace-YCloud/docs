@@ -1,0 +1,92 @@
+---
+title: "Errors"
+description: "HTTP status codes, error response format, and common error codes returned by the YCloud API."
+---
+
+The YCloud API uses standard HTTP status codes to signal success or failure. When a request fails, the response body contains a JSON object with details about the error.
+
+## Error response format
+
+```json
+{
+  "code": "invalid_parameter",
+  "message": "The 'to' field must be in E.164 format.",
+  "details": [
+    {
+      "field": "to",
+      "issue": "invalid_format",
+      "description": "Phone number must start with '+' followed by the country code."
+    }
+  ]
+}
+```
+
+<ResponseField name="code" type="string" required>
+  A machine-readable error code string that identifies the error type.
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  A human-readable description of the error.
+</ResponseField>
+
+<ResponseField name="details" type="array">
+  An optional array of objects providing field-level error details.
+  <Expandable title="details item properties">
+    <ResponseField name="field" type="string">
+      The request field that caused the error.
+    </ResponseField>
+    <ResponseField name="issue" type="string">
+      A short machine-readable issue identifier.
+    </ResponseField>
+    <ResponseField name="description" type="string">
+      A human-readable explanation of the issue.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## HTTP status codes
+
+| Status | Meaning                                                                                           |
+| ------ | ------------------------------------------------------------------------------------------------- |
+| `200`  | **OK** — The request succeeded and a resource was returned.                                      |
+| `201`  | **Created** — The request succeeded and a new resource was created.                              |
+| `400`  | **Bad Request** — The request was malformed or missing required fields.                          |
+| `401`  | **Unauthorized** — The API key is missing or invalid.                                            |
+| `403`  | **Forbidden** — The API key does not have permission to perform this action.                     |
+| `404`  | **Not Found** — The requested resource does not exist.                                           |
+| `422`  | **Unprocessable Entity** — The request was well-formed but contains semantic errors.             |
+| `429`  | **Too Many Requests** — You have exceeded the rate limit. See [Rate Limits](/api-reference/rate-limits). |
+| `500`  | **Internal Server Error** — An unexpected error occurred on YCloud's servers.                    |
+
+## Common error codes
+
+| Code                    | Status | Description                                             |
+| ----------------------- | ------ | ------------------------------------------------------- |
+| `unauthorized`          | 401    | API key is missing or invalid.                          |
+| `forbidden`             | 403    | The key does not have permission for this operation.    |
+| `not_found`             | 404    | The resource with the given ID does not exist.          |
+| `invalid_parameter`     | 400    | One or more request parameters are invalid.             |
+| `missing_required_field`| 400    | A required field was not provided.                      |
+| `unprocessable_entity`  | 422    | The request is syntactically valid but semantically incorrect. |
+| `rate_limit_exceeded`   | 429    | Too many requests. Retry after the indicated delay.     |
+| `internal_error`        | 500    | An internal error occurred. Contact support if it persists. |
+
+## WhatsApp-specific error codes
+
+WhatsApp messages may fail at the delivery layer with Meta-specific error codes. When a WhatsApp message fails, the `error` field on the message object contains a `code` and `message` from Meta.
+
+Common WhatsApp error codes include:
+
+| Code    | Description                                                                  |
+| ------- | ---------------------------------------------------------------------------- |
+| `131026`| Message undeliverable — recipient's phone number is not registered on WhatsApp. |
+| `131047`| Re-engagement message — 24-hour customer service window has expired.         |
+| `131051`| Unsupported message type for this recipient.                                 |
+| `132000`| Template not found or not approved.                                          |
+| `132001`| Template parameter count mismatch.                                           |
+| `132007`| Template content policy violation.                                           |
+| `133004`| The sender phone number is not registered.                                   |
+
+<Note>
+  For the full list of Meta WhatsApp error codes, refer to the [Meta Business Platform documentation](https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes).
+</Note>

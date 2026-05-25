@@ -1,0 +1,76 @@
+---
+title: "Messages"
+description: "An overview of WhatsApp message types, conversations, outbound and inbound message formats, and message status notifications."
+---
+
+## Conversations
+
+A **conversation** is a 24-hour messaging thread between you and a customer. Conversations are the basis of WhatsApp's pricing model — you are billed per conversation, not per message.
+
+Conversations are opened when a business sends a template message to start an outbound exchange, or when a customer sends an inbound message. Each conversation provides a 24-hour window for free-form message exchange.
+
+## Outbound messages
+
+### Message types
+
+When communicating with customers, you can use two types of outbound messages:
+
+**Template messages**
+- Required to initiate a conversation with a customer who has not messaged you, or has not messaged you in the past 24 hours.
+- Must be pre-created and approved by WhatsApp before sending.
+- Support multiple formats including text, media, and interactive buttons.
+- See [Message templates](/whatsapp-basics/message-templates) for details.
+
+**Free-form messages**
+- Custom messages available only within an active 24-hour conversation window.
+- Support all media types.
+
+Free-form message subtypes:
+
+| Type | Description |
+|---|---|
+| **Text** | Plain text containing letters, numbers, and symbols |
+| **Media** | Images, videos, audio files, documents, and stickers |
+| **Contact** | Contact cards containing names and phone numbers |
+| **Location** | Geographic location data |
+| **Interactive** | List messages, reply button messages, and single/multi-product messages that let users choose from predefined options |
+
+### Message status
+
+For every message you send, WhatsApp delivers status updates to your webhook endpoint.
+
+| Status | Description |
+|---|---|
+| `sent` | The message is in transit within WhatsApp's systems. |
+| `delivered` | The message has been delivered to the customer's device. |
+| `read` | The message has been read by the customer. Only available if the customer has enabled read receipts; otherwise you only receive `delivered`. |
+| `failed` | The message failed to send. The failure reason is included in the callback. Refer to [Error Codes](https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes) and [Troubleshooting](https://developers.facebook.com/docs/whatsapp/cloud-api/support/troubleshooting) for help. |
+| `deleted` | A message sent by the customer was deleted by the customer. If the message was downloaded from the server, delete it from your system. |
+| `warning` | The message contains items that are unavailable or non-existent in the catalog. |
+
+<Note>
+The order in which webhook notifications arrive may not reflect the actual chronological order of events. Check the timestamps if precise ordering is needed.
+</Note>
+
+## Inbound messages
+
+When customers send you messages, you receive them in real-time. Inbound messages can take the following forms:
+
+- Text messages
+- Location messages
+- Media messages (images, audio, voice, video, documents)
+- Replies to quick reply buttons or list buttons
+
+## Frequently asked questions
+
+<AccordionGroup>
+  <Accordion title="Can messages be formatted?">
+    Yes. WhatsApp supports bold, italic, strikethrough, and monospace formatting using special characters in the message text.
+  </Accordion>
+  <Accordion title="What should I do if I need to reply to a customer after the 24-hour window has closed?">
+    You cannot send free-form messages after the 24-hour window expires. Instead, create a message template to re-open the conversation. Examples:
+
+    - `Hello [name], regarding the issue you reported earlier, we regret to inform you that [update]. We apologize for any inconvenience.`
+    - `We have updates on your ticket. If you wish to continue receiving support, please reply.`
+  </Accordion>
+</AccordionGroup>

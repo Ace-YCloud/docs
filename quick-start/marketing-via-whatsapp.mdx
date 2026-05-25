@@ -1,0 +1,98 @@
+---
+title: "Marketing via WhatsApp"
+description: "How to run one-time broadcast campaigns and automated marketing journeys using WhatsApp through YCloud."
+---
+
+WhatsApp marketing lets you reach customers directly in the messaging app they already use, with support for rich media, interactive buttons, and real-time delivery status.
+
+## Pre-preparation
+
+Before creating a WhatsApp campaign, complete the following steps.
+
+<Steps>
+  <Step title="Create a YCloud account">
+    [Register](https://www.ycloud.com/console/#/entry/login?lastPath=https%3A%2F%2Fwww.ycloud.com%2Fconsole%2F%23%2Fapp%2Fdashboard%2FgetStarted) your YCloud account.
+  </Step>
+  <Step title="Create a WABA account">
+    You need a Facebook account and a phone number that can receive voice calls or SMS, and has not previously been registered with WhatsApp. See [Create a WhatsApp account](/quick-start/create-whatsapp-account) for full instructions.
+  </Step>
+  <Step title="Create a marketing template">
+    All outbound WhatsApp messages require an approved message template.
+
+    1. In YCloud, go to **WhatsApp Manager > Templates > Add Templates**.
+    2. Select **Marketing** as the category, name the template, and choose the language.
+    3. Edit the template body, header, footer, and buttons as needed.
+    4. Click **Submit > Confirm**.
+
+    Templates are reviewed by Meta. Approval typically completes within one day. If rejected, you can view the reason on the edit page and modify or appeal the template.
+  </Step>
+</Steps>
+
+## Create a one-time marketing broadcast
+
+Use the **Campaign** feature to send marketing messages, promotional notifications, or product recommendations to a specific group of contacts.
+
+<Steps>
+  <Step title="Add a campaign">
+    Go to **Campaign > Add Campaign**.
+  </Step>
+  <Step title="Fill in campaign information">
+    Enter the campaign name and other details, then click **Next**.
+  </Step>
+  <Step title="Select recipients">
+    Choose the contact group or segment you want to send to.
+  </Step>
+  <Step title="Submit for sending">
+    Review the content, click **Submit**, and confirm. The campaign will be sent once approved.
+  </Step>
+  <Step title="View campaign analytics">
+    Go to **Campaign > Action > Analytics** to view delivery, read, and click statistics. Data can be downloaded from the upper-right corner.
+  </Step>
+</Steps>
+
+<Tip>
+When designing campaign messages, avoid overly promotional or blunt language. Use visual, lively, and engaging content to improve open and click rates.
+</Tip>
+
+## Create automated marketing journeys
+
+**Journey** is YCloud's automated marketing tool that triggers a series of actions based on customer behavior. For example, you can automatically send a payment reminder when a customer abandons checkout.
+
+<Steps>
+  <Step title="Create a Journey">
+    Go to **Journey > Create Journey**.
+  </Step>
+  <Step title="Add a trigger">
+    Set the trigger conditions. All conditions in the trigger must be met before the Journey activates.
+  </Step>
+  <Step title="Design the process">
+    Drag and drop components and connect them to design the workflow for your business scenario.
+
+    For example: when a customer places an order but does not pay within 10 minutes, automatically send a reminder. If payment is completed during that window, the reminder is suppressed.
+  </Step>
+  <Step title="Activate and save">
+    After completing the process, click **Save** in the upper-right corner, set the Journey status to **Active**, and save.
+  </Step>
+</Steps>
+
+## Best practices
+
+### Segment contacts for targeted delivery
+
+Use the **Contact** grouping feature to create audience segments before launching a campaign. Select the relevant segment when setting up the campaign to target the right customers.
+
+### Allow unsubscribes
+
+Add an unsubscribe button to mass messages. When customers join the unsubscribe list, you can filter them out in future sends to reduce complaint rates and protect your account's quality rating.
+
+### Use MM Lite API to improve reach
+
+[MM Lite API](https://www.ycloud.com/console/#/app/integrations/mmLiteApi) is Meta's interface for sending WhatsApp marketing template messages. Compared to Cloud API, MM Lite API provides:
+
+- Higher user reach and read rates
+- Meta AI optimization to reach customers who prefer marketing messages
+- Tracking integration with Meta's advertising system (if you use Pixel)
+
+<Note>
+MM Lite API is only available to companies with registered addresses in Brazil, India, Indonesia, Mexico, Chile, Peru, Singapore, Hong Kong, and the USA.
+</Note>

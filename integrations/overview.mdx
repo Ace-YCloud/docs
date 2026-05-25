@@ -1,0 +1,57 @@
+---
+title: "Integrations"
+description: "An overview of all available YCloud integrations: webhooks, e-commerce platforms, CRM tools, helpdesk software, and workflow automation."
+---
+
+YCloud connects to the tools your team already uses. Integrations are configured at **Settings > Integrations** inside your YCloud account.
+
+<CardGroup cols={2}>
+  <Card title="Webhooks" icon="webhook" href="/integrations/webhooks">
+    Receive real-time event notifications — message status updates, inbound messages, and contact events — in your own systems.
+  </Card>
+  <Card title="E-commerce" icon="cart-shopping" href="/integrations/ecommerce">
+    Connect your Shopify store or other e-commerce platform to sync orders, trigger order notifications, and manage customer conversations.
+  </Card>
+  <Card title="Calling" icon="phone" href="/integrations/calling">
+    Set up outbound calling through YCloud's calling feature, integrated with your agent workflows in Inbox.
+  </Card>
+  <Card title="n8n" icon="circle-nodes" href="/integrations/overview#n8n">
+    Build automated workflows between YCloud and hundreds of other apps using the n8n low-code platform.
+  </Card>
+  <Card title="HubSpot" icon="hubspot" href="/integrations/overview#hubspot">
+    Sync contacts and conversations between YCloud and HubSpot CRM to keep your sales pipeline up to date.
+  </Card>
+  <Card title="Freshdesk" icon="headset" href="/integrations/overview#freshdesk">
+    Route incoming WhatsApp conversations into Freshdesk tickets so your support team can manage them alongside other channels.
+  </Card>
+</CardGroup>
+
+## n8n
+
+[n8n](https://n8n.io) is an open-source workflow automation tool. The YCloud n8n integration lets you build automations that connect WhatsApp messaging to your other business systems without writing custom code.
+
+Common use cases include:
+
+- Triggering a WhatsApp message when a form is submitted
+- Syncing new contacts from a spreadsheet into YCloud
+- Forwarding inbound messages to a Slack channel or CRM
+
+To set up the integration, navigate to **Settings > Integrations > n8n** in YCloud and follow the connection instructions. The YCloud node is available in the n8n community node library.
+
+## HubSpot
+
+The HubSpot integration connects your YCloud contact database to HubSpot CRM. When a contact is created or updated in YCloud, the record can be synced to HubSpot, and deal or contact activity from HubSpot can be reflected in YCloud.
+
+To connect HubSpot, navigate to **Settings > Integrations > HubSpot** and authenticate with your HubSpot account credentials.
+
+## Freshdesk
+
+The Freshdesk integration allows inbound WhatsApp conversations to be created as Freshdesk support tickets automatically. Agents can then reply from within Freshdesk, with replies delivered back to the customer via WhatsApp.
+
+To set up the Freshdesk integration, navigate to **Settings > Integrations > Freshdesk**, enter your Freshdesk domain and API key, and configure the ticket creation rules.
+
+## API access
+
+All YCloud features are also accessible through the REST API. If you need a custom integration not covered by the built-in connectors, the API provides full access to contacts, messages, campaigns, and more.
+
+See the [YCloud API documentation](https://docs.ycloud.com/reference/introduction) for endpoint reference.

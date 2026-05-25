@@ -1,0 +1,107 @@
+---
+title: "Compliance"
+description: "WhatsApp compliance requirements covering opt-in, opt-out, business verification, and blue tick (Official Business Account) verification."
+---
+
+Using the WhatsApp Business Platform responsibly protects your account health, maintains high message delivery rates, and ensures a good experience for your customers. This page covers the key compliance areas: opt-in, opt-out, business verification, and Official Business Account (OBA) status.
+
+## Opt-in
+
+Meta requires businesses to obtain customer consent before sending WhatsApp messages. Opt-in can be collected on WhatsApp or through external channels (website, app, in-store, etc.).
+
+**Opt-in best practices:**
+
+- Clearly state that the customer is opting in to receive messages on WhatsApp.
+- Specify the types of messages they will receive (e.g., order updates, promotions).
+- Provide the business name so customers know who they are hearing from.
+
+For a full implementation guide, refer to the [Opt-in documentation](https://helpdocs.ycloud.com/help-center/whatsapp-basics/compliance-information/opt-in-to-subscribe-to-whatsapp).
+
+## Opt-out
+
+You must provide customers with a way to stop receiving messages from you at any time.
+
+**Opt-out best practices:**
+
+- Include an unsubscribe button in marketing messages.
+- When a customer opts out, add them to your unsubscribe list and exclude them from future sends.
+- Honor opt-out requests promptly to reduce the likelihood of blocks and reports, which lower your quality rating.
+
+For a full implementation guide, refer to the [Opt-out documentation](https://helpdocs.ycloud.com/help-center/whatsapp-basics/compliance-information/opt-out-of-unsubscribing-from-whatsapp).
+
+## Business verification
+
+Business verification confirms that your BM account belongs to a legitimate organization. Without it, your account has significant restrictions.
+
+| BM status | Restriction |
+|---|---|
+| Unverified | Max 2 phone numbers; 250 conversations/day per number |
+| Verified | Up to 20 phone numbers; conversation limits grow automatically |
+
+After completing verification and passing the display name review, your account can:
+
+- Scale business-initiated conversations from 1,000 to 10,000 → 100,000 → unlimited per day
+- Respond to unlimited user-initiated conversations
+- Apply for Official Business Account (OBA) status
+- Register up to 20 phone numbers per BM
+
+### Preparing for verification
+
+| Material | Requirements |
+|---|---|
+| Official website | HTTPS encrypted; company name displayed in footer |
+| Business document | Business license, company bylaws, or tax registration certificate; must include full legal name, address, and phone number |
+| Email address (if using email verification) | Domain must match your website domain |
+
+### Verification process
+
+<Steps>
+  <Step title="Initiate verification">
+    As a BM admin, go to the [Business Manager Security Center](https://business.facebook.com/settings/security) and click **Verify**.
+  </Step>
+  <Step title="Submit organizational information">
+    Provide your company name, address, phone number, and website. The name and address must exactly match your supporting documents.
+  </Step>
+  <Step title="Choose a verification method">
+    Options include email, phone call, SMS, or domain verification. Email verification (using an address matching your website domain) is recommended. Domain verification is the second recommended method.
+  </Step>
+  <Step title="Upload proof documents">
+    Upload your business license or equivalent document showing the legal company name and address.
+  </Step>
+  <Step title="Wait for the result">
+    Verification decisions are usually made within 2 working days. You will receive an email notification on completion.
+  </Step>
+</Steps>
+
+<Note>
+Business verification is managed entirely by Meta. YCloud cannot check, update, or expedite your verification status. If you encounter issues, use Meta's [troubleshooting guide](https://www.facebook.com/business/help/2342133782492969).
+</Note>
+
+## Blue tick (Official Business Account)
+
+The blue tick — also called the green badge or Official Business Account (OBA) verification — is awarded by WhatsApp to confirm the existence of a well-known brand. A blue checkmark appears next to the display name in the contact view for OBA accounts.
+
+<Warning>
+Since August 2025, Meta has adjusted the Blue Tick application policy and applying through BSPs has been temporarily suspended. Applications can currently be submitted directly from the number profile in the Meta Business Suite backend.
+</Warning>
+
+### Prerequisites
+
+To be eligible for OBA status, your account must:
+
+- Represent a well-known, frequently searched brand or entity
+- Have completed [Business Verification](/whatsapp-basics/compliance#business-verification)
+- Have two-factor authentication (2FA) enabled
+- Have reached a conversation limit of at least 1,000 per day
+
+### Application process
+
+If the application option is available, go to the WhatsApp accounts management page in Meta Business Suite and access the number profile to apply. You can submit up to 5 supporting links from well-known publications to demonstrate notability.
+
+### Understanding notability
+
+OBA requires a well-known and frequently searched brand presence in online news from publications with large audiences. Paid or promotional content is not considered. The assessment is applied at the phone number and display name level — if you change the display name after receiving OBA status, notability must be re-evaluated.
+
+### If your application is rejected
+
+An OBA rejection means the account or submitted materials do not meet WhatsApp's requirements. Contact YCloud support if you have questions about the review results.

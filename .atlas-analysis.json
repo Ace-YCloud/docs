@@ -1,0 +1,163 @@
+{
+  "projectType": "saas",
+  "projectName": "YCloud",
+  "projectDescription": "YCloud is a WhatsApp-first marketing, sales, and customer service platform that helps businesses send messages, automate conversations, run campaigns, and engage customers at scale via the WhatsApp Business API.",
+  "theme": "almond",
+  "primaryColor": "#cc3aeb",
+  "lightColor": "#506ffc",
+  "darkColor": null,
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Help Center",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quick-start/create-whatsapp-account",
+              "quick-start/send-verification-code",
+              "quick-start/marketing-via-whatsapp",
+              "quick-start/customer-support-via-whatsapp"
+            ]
+          },
+          {
+            "group": "WhatsApp Basics",
+            "pages": [
+              "whatsapp-basics/account-structure",
+              "whatsapp-basics/phone-numbers",
+              "whatsapp-basics/messages",
+              "whatsapp-basics/message-templates",
+              "whatsapp-basics/whatsapp-flows",
+              "whatsapp-basics/compliance"
+            ]
+          },
+          {
+            "group": "Inbox",
+            "pages": [
+              "inbox/overview",
+              "inbox/quick-start",
+              "inbox/admin-guide",
+              "inbox/agent-guide",
+              "inbox/ai-copilot",
+              "inbox/calling"
+            ]
+          },
+          {
+            "group": "Chatbot & Automation",
+            "pages": [
+              "chatbot/overview",
+              "chatbot/create-chatbot",
+              "chatbot/ai-agent",
+              "chatbot/journey",
+              "chatbot/campaigns"
+            ]
+          },
+          {
+            "group": "Contacts",
+            "pages": [
+              "contacts/management",
+              "contacts/import",
+              "contacts/segments",
+              "contacts/unsubscribe"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations/overview",
+              "integrations/webhooks",
+              "integrations/ecommerce",
+              "integrations/calling"
+            ]
+          },
+          {
+            "group": "Account & Billing",
+            "pages": [
+              "account/users-and-teams",
+              "account/security",
+              "billing/overview",
+              "billing/faq"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Introduction",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/authentication",
+              "api-reference/errors",
+              "api-reference/rate-limits",
+              "api-reference/webhooks"
+            ]
+          },
+          {
+            "group": "Messaging",
+            "pages": [
+              "api-reference/whatsapp-messages",
+              "api-reference/whatsapp-templates",
+              "api-reference/whatsapp-flows",
+              "api-reference/whatsapp-calling",
+              "api-reference/sms",
+              "api-reference/voice",
+              "api-reference/email"
+            ]
+          },
+          {
+            "group": "Contacts & Events",
+            "pages": [
+              "api-reference/contacts",
+              "api-reference/custom-events",
+              "api-reference/unsubscribers"
+            ]
+          },
+          {
+            "group": "Account",
+            "pages": [
+              "api-reference/whatsapp-business-accounts",
+              "api-reference/whatsapp-phone-numbers",
+              "api-reference/webhook-endpoints",
+              "api-reference/balance"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "WhatsApp Business API messaging (send templates, free-form, media)",
+    "Inbox — shared team inbox for customer service and sales via WhatsApp",
+    "Chatbot — AI-powered and rule-based bots for automated conversations",
+    "Campaigns — bulk WhatsApp marketing campaign sending with analytics",
+    "Journey — visual automation builder for multi-step customer workflows",
+    "Calling — outbound and inbound WhatsApp voice calls",
+    "Contacts — CRM-style contact management with custom attributes and segments",
+    "CTWA (Click to WhatsApp Ads) — capture leads from Facebook/TikTok ads",
+    "WhatsApp Pay & Shop — native payment and storefront support",
+    "Integrations — Webhooks, n8n, Freshdesk, HubSpot, e-commerce connectors"
+  ],
+  "publicApiSurface": [
+    "POST /whatsapp/messages — send WhatsApp message directly or enqueued",
+    "POST /whatsapp/templates — create message template",
+    "GET /whatsapp/templates — list templates",
+    "POST /whatsapp/flows — create WhatsApp Flow",
+    "POST /whatsapp/calls/connect — initiate WhatsApp call",
+    "POST /sms/messages — send SMS",
+    "POST /voice/messages — send voice code",
+    "POST /email/messages — send email",
+    "POST /verification — start phone verification",
+    "POST /verification/check — verify OTP code",
+    "GET /contacts — list contacts",
+    "POST /contacts — create contact",
+    "PATCH /contacts/{id} — update contact",
+    "POST /webhook-endpoints — create webhook endpoint",
+    "GET /balance — retrieve account balance",
+    "GET /whatsapp/phone-numbers — list registered phone numbers",
+    "POST /custom-events — send custom event",
+    "POST /unsubscribers — add unsubscriber"
+  ]
+}

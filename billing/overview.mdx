@@ -1,0 +1,72 @@
+---
+title: "Billing overview"
+description: "How YCloud billing works: WhatsApp message pricing, account balance, recharging, and subscription management."
+---
+
+YCloud uses a prepaid credit model. You maintain a balance in your YCloud account and charges are deducted from that balance as you send messages and use paid features.
+
+## WhatsApp billing rules
+
+WhatsApp messages are billed per conversation, not per individual message. A conversation is a 24-hour window opened when either your business or the customer sends the first message.
+
+Conversations are categorised into four types, each with different pricing:
+
+| Category | Opened by | Description |
+|---|---|---|
+| **Marketing** | Business | Promotional messages, campaigns, and offers. |
+| **Utility** | Business | Transactional messages such as order confirmations, shipping updates, and OTPs. |
+| **Authentication** | Business | One-time passcodes sent for user verification. |
+| **Service** | Customer | Any conversation opened by a customer message. |
+
+Pricing varies by conversation category and by the country of the recipient's phone number. You can view the current rate card in your YCloud account under **Pricing and Billing**.
+
+<Note>
+A single 24-hour conversation window is charged once, regardless of how many messages are exchanged within that window. If the window expires and another message is sent, a new conversation charge applies.
+</Note>
+
+## Amount freezing
+
+When you initiate a message send, YCloud temporarily freezes (pre-authorises) an amount from your balance equal to the estimated cost. Once the message delivery outcome is confirmed, the frozen amount is either deducted (on success) or released (on failure).
+
+If your balance is too low to cover the frozen amount, the send will fail. Keep sufficient balance to avoid this.
+
+See the [Billing FAQ](/billing/faq) for more details on freezing and unfreezing behaviour.
+
+## Recharging your balance
+
+<Steps>
+  <Step title="Open Billing">
+    Navigate to **Pricing and Billing > Billing and Recharge**.
+  </Step>
+  <Step title="Select a recharge amount">
+    Enter the amount you want to add to your balance, or select from preset options.
+  </Step>
+  <Step title="Complete payment">
+    Follow the payment flow. YCloud supports common payment methods including credit card and bank transfer depending on your region.
+  </Step>
+</Steps>
+
+Your balance updates immediately after a successful payment.
+
+## Low balance alerts
+
+YCloud can notify you when your account balance drops below a threshold you set. This gives you time to recharge before message delivery is disrupted.
+
+To configure the alert:
+
+1. Navigate to **Pricing and Billing > Low Balance Alert**.
+2. Set the balance threshold at which you want to be notified.
+3. Enter the email address(es) to receive the alert.
+4. Save your settings.
+
+<Tip>
+Set your low balance threshold at an amount that gives you enough buffer to recharge before your balance reaches zero — especially if you run high-volume campaigns.
+</Tip>
+
+## Subscription
+
+YCloud's subscription tier determines your access to features, messaging limits, and support level. Subscription plans are billed separately from your messaging credit balance.
+
+When your subscription expires, a 15-day buffer period begins. During this period you retain access to your account and can continue using paid features while you arrange renewal. After the buffer period ends, access to premium features is suspended until the subscription is renewed.
+
+To view your current subscription and renewal date, navigate to **Pricing and Billing > Subscription Expiration**.

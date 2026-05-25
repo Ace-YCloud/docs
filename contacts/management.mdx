@@ -1,0 +1,73 @@
+---
+title: "Contact Management"
+description: "An overview of the YCloud contacts database: how contacts are created, what data is stored, and how to use attributes, tags, and owner assignment."
+---
+
+The Contacts section is a central database of all customers your business has interacted with or imported. Every contact has a phone number as its primary identifier, along with standard fields and any custom attributes you define.
+
+## How contacts are added
+
+Contacts enter your database through four pathways:
+
+<CardGroup cols={2}>
+  <Card title="Manual import" icon="user-plus">
+    Add a single contact by filling in a form, or upload a CSV file to bulk-import many contacts at once.
+  </Card>
+  <Card title="Inbound messages" icon="message">
+    When a customer sends a message, YCloud automatically saves their phone number and display name to your contact list.
+  </Card>
+  <Card title="API" icon="code">
+    Use the YCloud Contacts API to create or update contacts programmatically from your own systems.
+  </Card>
+  <Card title="Bulk file upload" icon="file-arrow-up">
+    Upload a spreadsheet with owner assignments and custom attributes pre-filled for large datasets.
+  </Card>
+</CardGroup>
+
+## Contact details
+
+Each contact record stores:
+
+| Field | Description |
+|---|---|
+| Phone number | Required. The unique identifier for the contact. |
+| Name / nickname | Display name shown in Inbox and campaigns. |
+| Country | Derived from the phone number prefix, or set manually. |
+| Tags | One or more labels for categorisation. |
+| Custom attributes | Any extra fields you define in Contact Settings. |
+| Owner | The agent or sales rep responsible for this contact. |
+| Subscription status | Whether this contact is subscribed or has opted out. |
+
+To view your contact list, navigate to **Contact > Contact list**. You can search by nickname, country, phone number, tag, or any custom attribute.
+
+## Custom attributes
+
+Custom attributes let you extend the contact record with data that matters to your business — for example, order ID, customer tier, preferred language, or any other field.
+
+You create and manage attributes at **Contact > Settings > Attributes**. Once created, attributes appear in the contact editing form, in the segment filter, and as template variables in campaigns.
+
+See [Contact attribute settings](/contacts/management#custom-attributes) for step-by-step setup instructions.
+
+## Tags
+
+Tags are short labels you attach to contacts to describe a characteristic or status — for example, `VIP`, `Churned`, or `Lead`. A contact can have multiple tags.
+
+You can create tags at **Contact > Settings > Tags**, or create them on the fly from the contact list. Tags are also accessible in Inbox when viewing a conversation.
+
+## Segments
+
+You can filter contacts by any combination of fields and save the result as a named segment. Segments appear in the left sidebar of the Contact list and can be used as the audience for a campaign.
+
+See [Contact grouping](/contacts/segments) for instructions.
+
+## Owner assignment
+
+Each contact can be assigned one owner — the agent or salesperson responsible for the relationship. When a message arrives in Inbox from a contact that has an owner, the conversation is routed to that owner.
+
+Owners are identified by email address. You can set an owner by editing the contact record, from within Inbox, by bulk CSV upload, or via the API.
+
+See [Owner assignment settings](/contacts/management#owner-assignment) for all methods.
+
+<Note>
+Contacts that have opted out of marketing messages are stored separately in the Unsubscribe list. They are not deleted from the contact database but are automatically excluded from future campaigns.
+</Note>

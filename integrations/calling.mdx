@@ -1,0 +1,78 @@
+---
+title: "Calling"
+description: "Setting up YCloud's calling feature, making outbound calls, and using WhatsApp calling inside Inbox."
+---
+
+YCloud supports voice calling in two forms: **outbound calling** through YCloud's calling product, and **WhatsApp calling** embedded directly in the Inbox interface.
+
+## Outbound calling
+
+YCloud's calling product lets your agents make outbound phone calls to customers from within the platform. Calls are logged automatically and linked to the relevant contact record.
+
+### Quick start
+
+<Steps>
+  <Step title="Enable calling for your account">
+    Contact the YCloud support team to enable the calling feature. Once enabled, the **Calling** section appears in your navigation.
+  </Step>
+  <Step title="Configure your calling settings (admin)">
+    Navigate to **Calling > Admin Guide** to set up call routing, assign agents to calling queues, and configure business hours.
+  </Step>
+  <Step title="Set up the agent environment">
+    Each agent who will make calls needs a headset or speaker/microphone. The calling interface is browser-based and does not require a separate application.
+  </Step>
+  <Step title="Make an outbound call">
+    Navigate to **Calling**, find the contact you want to call, and click **Call**. For bulk outbound calling campaigns, use the Outbound Calling guide.
+  </Step>
+</Steps>
+
+### Outbound calling campaigns
+
+Outbound calling campaigns let you dial a list of contacts automatically, connecting answered calls to available agents.
+
+To create an outbound calling campaign:
+
+<Steps>
+  <Step title="Prepare your contact list">
+    Create a contact segment or upload the list of phone numbers you want to call.
+  </Step>
+  <Step title="Configure the campaign">
+    Navigate to **Calling > Outbound Calling**, click **New Campaign**, and configure:
+    - The contact list or segment to dial
+    - The calling queue or agent group to route answered calls to
+    - The calling schedule (days and hours)
+    - The maximum number of simultaneous calls
+  </Step>
+  <Step title="Start the campaign">
+    Click **Start** to begin dialling. You can pause or stop the campaign at any time.
+  </Step>
+</Steps>
+
+### Call logs
+
+All calls — inbound and outbound — are recorded in **Calling > Calling Logs**. Each log entry shows the contact, agent, call duration, outcome, and timestamp.
+
+## WhatsApp calling in Inbox
+
+WhatsApp calling allows agents to initiate or receive WhatsApp voice calls directly from the Inbox interface, without switching to a phone.
+
+<Note>
+WhatsApp calling in Inbox is a separate feature from outbound calling. It uses the WhatsApp Business API and is available to contacts who also use WhatsApp on their device.
+</Note>
+
+To use WhatsApp calling in Inbox:
+
+1. Open a conversation in **Inbox**.
+2. Click the phone icon in the conversation toolbar.
+3. The call connects through the customer's WhatsApp app.
+
+WhatsApp calls are logged alongside the conversation history, so agents and supervisors have a complete record of all interactions with a contact.
+
+## Roles
+
+| Role | Access |
+|---|---|
+| Admin | Full access to calling configuration, queues, campaigns, and logs. |
+| Agent | Can make and receive calls; can view their own call logs. |
+
+For a full guide on admin configuration, see the [Admin Guide](https://helpdocs.ycloud.com/help-center/calling/manager-guideline) in the original YCloud help center. For agent-specific instructions, see the [Agent Guide](https://helpdocs.ycloud.com/help-center/calling/agent-guideline).

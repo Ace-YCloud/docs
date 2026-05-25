@@ -1,0 +1,57 @@
+---
+title: "Account Structure"
+description: "Understand the three-layer WhatsApp Business account hierarchy: Business Manager, WABA, and phone numbers."
+---
+
+To send messages using the WhatsApp Business Platform, you need three things:
+
+1. A **Meta Business Manager (BM) account**
+2. A **WhatsApp Business Account (WABA)**
+3. A **phone number** registered to that WABA
+
+Each layer is nested inside the one above it. The BM account contains one or more WABAs, and each WABA contains one or more phone numbers.
+
+## BM account
+
+The Meta Business Manager account (BM) is the top-level management tool provided by Meta for managing your business presence on Facebook, Instagram, and WhatsApp.
+
+- If you don't have a BM account, create one at [business.facebook.com](https://business.facebook.com/).
+- You need a Facebook account to create a BM account.
+
+**Recommendations:**
+
+- Before creating a new BM account, check with your organization to confirm whether one already exists, to avoid duplication.
+- Link all Facebook pages, Instagram pages, ad accounts, and WABA accounts to the same BM account to avoid information loss and to increase the trust level and stability of your WABA accounts.
+
+## WhatsApp Business Account (WABA)
+
+A WABA is used to manage the phone numbers registered on the WhatsApp Business Platform. When you use YCloud to reach your customers via WhatsApp, YCloud creates and manages the WABA on your behalf.
+
+- Each WABA has a unique ID.
+- You can create an unlimited number of WABAs in your BM account.
+- Each YCloud account can be associated with an unlimited number of WABAs.
+- The WABA itself cannot send messages — messages are sent and received through the phone numbers linked to it.
+
+## Phone number
+
+The phone number is the sender identity for your WhatsApp messages. Each phone number is associated with one WABA.
+
+- Each phone number has a **display name** — the brand name shown to users in WhatsApp.
+- A verified BM account can include up to **20 phone numbers**. This limit can be extended to 120 upon request to the YCloud team.
+- An unverified BM account is limited to **2 phone numbers** and a daily message limit of 250 conversations.
+
+### Requirements for connecting a phone number
+
+To link a phone number to a WABA, it must meet the following conditions:
+
+- You must be the owner of the number.
+- The number must include a country/region code (mobile or landline).
+- The number must be able to receive voice calls or SMS.
+- The number must **not** have been previously registered with any type of WhatsApp account (WhatsApp or WhatsApp Business).
+
+<Note>
+If you want to use a number already registered on WhatsApp or WhatsApp Business, refer to the migration guides:
+
+- [Migrate an existing WhatsApp number to a business account](https://developers.facebook.com/docs/whatsapp/on-premises/get-started/migrate-existing-whatsapp-number-to-a-business-account)
+- Migrate a phone number to another WABA
+</Note>

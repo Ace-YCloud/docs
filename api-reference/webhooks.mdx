@@ -1,0 +1,142 @@
+---
+title: "Webhooks"
+description: "Configure webhook endpoints to receive real-time event notifications from YCloud."
+---
+
+Webhooks let YCloud push event notifications to your server instead of requiring you to poll the API. When an event occurs — such as a message being delivered or a contact being created — YCloud sends an HTTP POST request to your configured endpoint URL.
+
+## Configure a webhook endpoint
+
+You can create a webhook endpoint using the [Webhook Endpoints API](/api-reference/webhook-endpoints) or from the YCloud dashboard under **Settings → Developer → Webhooks**.
+
+Each endpoint has:
+- A **URL** that must be publicly accessible over HTTPS.
+- A list of **enabled events** that determines which event types trigger a delivery.
+- A **secret** used to verify the payload signature.
+
+## Event types
+
+| Event type                                       | Description                                                    |
+| ------------------------------------------------ | -------------------------------------------------------------- |
+| `whatsapp.message.updated`                       | A WhatsApp outbound message status changed (sent, delivered, read, failed). |
+| `whatsapp.inbound_message.received`              | An inbound WhatsApp message was received.                      |
+| `whatsapp.template.reviewed`                     | A WhatsApp template was approved or rejected by Meta.          |
+| `whatsapp.business_account.updated`              | A WhatsApp Business Account property changed.                  |
+| `whatsapp.phone_number.updated`                  | A WhatsApp phone number property changed.                      |
+| `whatsapp.call.connect`                          | A WhatsApp call was connected.                                 |
+| `whatsapp.call.status_updated`                   | A WhatsApp call status changed.                                |
+| `whatsapp.call.terminate`                        | A WhatsApp call was terminated.                                |
+| `whatsapp.flow.updated`                          | A WhatsApp Flow status changed.                                |
+| `contact.created`                                | A contact was created.                                         |
+| `contact.deleted`                                | A contact was deleted.                                         |
+| `contact.updated`                                | A contact's attributes changed.                                |
+| `contact.unsubscribe.created`                    | A contact opted out of a channel.                              |
+| `contact.unsubscribe.deleted`                    | A contact opt-out was removed.                                 |
+
+## Webhook payload structure
+
+Every webhook delivery is an HTTP POST with a JSON body:
+
+```json
+{
+  "id": "evt_01h9xyz...",
+  "type": "whatsapp.message.updated",
+  "apiVersion": "v2",
+  "createTime": "2024-01-15T10:30:00Z",
+  "data": {
+    "object": { }
+  }
+}
+```
+
+<ResponseField name="id" type="string">
+  Unique identifier for this event delivery.
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  The event type (e.g., `whatsapp.message.updated`).
+</ResponseField>
+
+<ResponseField name="apiVersion" type="string">
+  The API version used to serialize the payload.
+</ResponseField>
+
+<ResponseField name="createTime" type="string">
+  ISO 8601 timestamp of when the event occurred.
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  Contains the `object` field with the full resource that triggered the event.
+</ResponseField>
+
+## Signature verification
+
+YCloud signs each webhook payload with your endpoint secret using HMAC-SHA256. Verify the signature to ensure the request is genuinely from YCloud and has not been tampered with.
+
+The signature is sent in the `YCloud-Signature` header as `sha256=<hex_digest>`.
+
+<CodeGroup>
+
+```javascript Node.js
+const crypto = require('crypto');
+
+function verifyWebhookSignature(secret, payload, signature) {
+  const expected = 'sha256=' + crypto
+    .createHmac('sha256', secret)
+    .update(payload)
+    .digest('hex');
+  return crypto.timingSafeEqual(
+    Buffer.from(expected),
+    Buffer.from(signature)
+  );
+}
+
+// In your Express handler:
+app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  const sig = req.headers['ycloud-signature'];
+  if (!verifyWebhookSignature('YOUR_ENDPOINT_SECRET', req.body, sig)) {
+    return res.status(401).send('Invalid signature');
+  }
+  const event = JSON.parse(req.body);
+  // process event...
+  res.sendStatus(200);
+});
+```
+
+```python Python
+import hmac
+import hashlib
+
+def verify_webhook_signature(secret: str, payload: bytes, signature: str) -> bool:
+    expected = 'sha256=' + hmac.new(
+        secret.encode(),
+        payload,
+        hashlib.sha256
+    ).hexdigest()
+    return hmac.compare_digest(expected, signature)
+```
+
+</CodeGroup>
+
+<Warning>
+  Always verify the signature before processing a webhook payload. Skipping this step allows anyone to send forged events to your endpoint.
+</Warning>
+
+## Responding to webhooks
+
+Your endpoint must return a `2xx` HTTP status code within **10 seconds**. If it does not, YCloud will consider the delivery failed and retry later.
+
+- Return `200 OK` as quickly as possible.
+- If you need to do heavy processing, enqueue the work and respond immediately.
+
+## Retries
+
+If a delivery fails (non-2xx response or timeout), YCloud retries the delivery with exponential backoff over a period of several hours.
+
+## Testing webhooks
+
+Use the **Test webhooks** endpoint (`POST /webhooks/test`) to send a sample payload to your endpoint without triggering a real event. This is useful when setting up your endpoint for the first time.
+
+<Tip>
+  You can also use tools like [Svix Playground](https://play.svix.com) or [webhook.site](https://webhook.site) to inspect incoming payloads during development.
+</Tip>

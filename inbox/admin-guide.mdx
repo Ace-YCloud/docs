@@ -1,0 +1,125 @@
+---
+title: "Admin guide"
+description: "Set up your Inbox team: invite agents, configure assignment rules, manage automation, tags, and canned responses."
+---
+
+This guide covers everything an admin or Inbox manager needs to configure before agents start handling conversations.
+
+## Step 1: Add team members
+
+<Steps>
+  <Step title="Invite users">
+    Go to **Settings > Users and teams > Users** and click **Invite user**. Fill in the member's basic information and click **Add**. YCloud sends an activation email to the address you provide.
+  </Step>
+  <Step title="Member accepts invitation">
+    The invited member clicks **Activate your account** in the email to complete account setup. They do not need to register separately on the YCloud website.
+  </Step>
+  <Step title="Add agents to a team">
+    Go to **Settings > Users and teams > Teams** and add agents to the appropriate team. Teams are used to group agents for routing and reporting purposes.
+  </Step>
+</Steps>
+
+<Note>
+After a member activates their account they can log in and view Inbox messages. However, conversations will not be automatically assigned to them until you add them to the assignment rules for the relevant WhatsApp number.
+</Note>
+
+## Step 2: Configure assignment rules
+
+### Basic assignment rules
+
+Navigate to **WhatsApp accounts > [number] > Settings > Assignment**.
+
+The system evaluates assignment rules in priority order from top to bottom:
+
+1. **Owner priority** — If the inbound customer already has an assigned owner, the conversation is routed to that owner.
+2. **Last handled online agent** — The conversation goes to the agent who last handled this customer, if that agent is currently online.
+3. **Fallback** — Assign to a specific agent, a team, a chatbot, or leave unassigned.
+
+### Advanced assignment rules
+
+Advanced rules are available on Pro plans and above. Click **Add advanced rules** from the assignment settings page.
+
+You can start from a blank canvas or copy an existing rule from another number in your account.
+
+#### Condition block
+
+The condition block filters inbound conversations based on:
+
+- **Country** — determined by the customer's phone area code.
+- **Language** — the language YCloud detects the customer is using.
+- **Ownership** — whether the customer already has an assigned owner.
+- **Last handled online agent** — whether the agent who previously assisted this customer is currently online.
+- **Message inbound time** — whether the message arrived during a configured time window.
+
+The system evaluates conditions top to bottom and enters the first matching branch. Any conversation that does not match any condition enters the **Else** branch.
+
+#### Agent takeover block
+
+After a condition block, define what happens to matching conversations:
+
+- **Owner takeover** — assign to the customer's owner regardless of online status.
+- **Last handled online agent takeover** — assign to the previously handling agent if they are online.
+- **Agent takeover** — assign to a specific agent (ignoring online status), a team, a chatbot, or leave unassigned.
+
+#### Save and activate
+
+After configuring the canvas, click **Check** to validate the configuration, then click **Save**. On the advanced rules list page, toggle **Activate Advanced Rules** to make the rules take effect immediately.
+
+## Step 3: Configure automation rules
+
+Navigate to **WhatsApp accounts > [number] > Settings > Automation**.
+
+Use the toggle on each rule to enable or disable it, and the arrow to expand or collapse its settings.
+
+| Rule | Description |
+|---|---|
+| **Welcome message** | Automatically sent when a customer opens a conversation for the first time. |
+| **Icebreaker tips** | Clickable prompt buttons shown to new users in the chat window. They help customers navigate your services and can trigger chatbot flows. |
+| **Automatic reply for unassigned conversations** | Sends an auto-reply when no agent is assigned to the conversation. |
+| **Timeout automatic reply** | Sends a message if the assigned agent has not replied within a set time period. |
+| **Automatic closing** | Closes the conversation automatically if the customer has not responded within a configured time. |
+
+## Step 4: Configure the tag system
+
+Navigate to **Contact > Settings > Tags** to create and manage tags that agents can apply to customers.
+
+Tags can be used to segment customers, filter conversations, and improve reporting.
+
+## Step 5: Configure canned responses
+
+Navigate to **Settings > Inbox > Canned responses** to create account-wide quick replies that all agents can use.
+
+<Steps>
+  <Step title="Open canned response settings">
+    Click the **Inbox Settings** menu, then select the **Canned response** submenu.
+  </Step>
+  <Step title="Create a new response">
+    Click the create button. Fill in:
+    - **Shortcode** — a unique keyword or phrase (max 150 characters) that agents type to invoke the response.
+    - **Content** — the message body (max 1024 characters). Supports tags and one attachment.
+  </Step>
+  <Step title="Save">
+    Click **Save**. The response is immediately available to all agents. Click the delete button to remove a response.
+  </Step>
+</Steps>
+
+<Tip>
+Company canned responses created under **Settings > Inbox > Canned responses** are shared across all agents. Agents can also create personal canned responses for their own use.
+</Tip>
+
+## Step 6: Configure conversation permissions
+
+Under **WhatsApp accounts > [number] > Settings > Authority**, you can control which users and teams have permission to initiate new conversations from that number.
+
+By default, all newly invited users receive permission on all numbers. Remove specific users from the authorized list if you want to restrict their access — for example, if a number is managed by a specific product team only.
+
+## View real-time reports
+
+Go to **Inbox > Analytics** to monitor team performance in real time. You can view:
+
+- **Real-time overview** — today's conversations by hour, open conversation counts, agent availability, and per-agent workload.
+- **Agents** — conversation totals, online time, average first response time, and average resolution time per agent.
+- **Inboxes** — conversation and message totals, average response and resolution times per inbox.
+- **Teams** — aggregated statistics and agent ranking within each team.
+
+Data can be filtered by time period (up to the last 1 year) and downloaded using the **Download** button.

@@ -1,0 +1,76 @@
+---
+title: "Import Contacts"
+description: "How to create contacts manually, upload a CSV file, or use the API to add contacts to your YCloud database."
+---
+
+You can add contacts to your YCloud account in three ways: one at a time manually, in bulk via a file upload, or programmatically via the API.
+
+## Add a single contact
+
+<Steps>
+  <Step title="Open the new contact form">
+    Navigate to **Contact > Contact list** and click **+ New contacts**.
+  </Step>
+  <Step title="Choose 'Add a new contact'">
+    Select **Add a new contact** from the dropdown.
+  </Step>
+  <Step title="Fill in the contact details">
+    Enter at minimum a phone number (in international format). You can also fill in a name, country, tags, custom attributes, and owner email.
+  </Step>
+  <Step title="Submit">
+    Click **Submit** to save the contact.
+  </Step>
+</Steps>
+
+## Bulk import via file upload
+
+Use a spreadsheet to import many contacts at once. The file must include a phone number column; all other columns are optional.
+
+<Steps>
+  <Step title="Open the import dialog">
+    Navigate to **Contact > Contact list** and click **+ New contacts**.
+  </Step>
+  <Step title="Choose 'Upload a file'">
+    Select **Upload a file** from the dropdown.
+  </Step>
+  <Step title="Download the template (optional)">
+    Click **Download Template** to get a pre-formatted CSV with the correct column headers, including the `ownerEmail` field for owner assignment.
+  </Step>
+  <Step title="Prepare your file">
+    Fill in your data. The required column is `phoneNumber` (in international format, e.g. `+14155550100`). Include any additional columns for custom attributes or owner assignments.
+  </Step>
+  <Step title="Upload and map columns">
+    Upload your file and confirm that the column mapping is correct. YCloud will preview the field matching.
+  </Step>
+  <Step title="Confirm and import">
+    Review the number of rows detected, then click **Next** to complete the import.
+  </Step>
+</Steps>
+
+<Note>
+If a phone number already exists in your contact list, the import will update that contact's fields rather than create a duplicate.
+</Note>
+
+<Warning>
+Phone numbers must be in E.164 international format (e.g. `+14155550100`). Rows with invalid or missing phone numbers will be skipped.
+</Warning>
+
+## Import via API
+
+You can create or update contacts programmatically using the YCloud Contacts API.
+
+- [Create contact API reference](https://docs.ycloud.com/reference/contact-create)
+- [Update contact API reference](https://docs.ycloud.com/reference/contact-update)
+
+The `ownerEmail` field is optional — supply it to assign an owner at import time.
+
+## Bulk operations
+
+Once contacts are in your database, you can:
+
+- **Export** contacts to CSV from **Contact > Export**. Filters applied to the current view are respected, so you can export a specific segment.
+- **Control displayed columns** using the column settings icon in the upper right of the contact list. Select which attributes to show or hide.
+
+<Tip>
+Apply a segment filter before exporting if you only need a subset of your contacts — for example, all contacts tagged `VIP` in a specific country.
+</Tip>

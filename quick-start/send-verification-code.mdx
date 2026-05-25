@@ -1,0 +1,127 @@
+---
+title: "Send Verification Code"
+description: "How to send OTP and verification codes to users via WhatsApp using YCloud's authentication message templates."
+---
+
+WhatsApp is a reliable verification channel that shares the advantages of SMS without being affected by local carrier infrastructure. WhatsApp messages can reach users in areas where Wi-Fi is available but cellular signals are weak. It is also generally faster than SMS and includes end-to-end encryption.
+
+**Why use WhatsApp for OTP:**
+
+- **Cost reduction** — In many countries, WhatsApp is cheaper than SMS and does not charge for undelivered messages. In regions with high WhatsApp coverage (India, Indonesia, South America), WhatsApp is the preferred verification channel.
+- **Security** — Every WhatsApp user is identified by a unique phone number. WhatsApp's own anti-fraud tools verify these numbers, partially outsourcing identity verification to WhatsApp.
+
+## Setup steps
+
+### Step 1: Register a YCloud account
+
+Log in to or [register](https://www.ycloud.com/console/#/entry/login?lastPath=https%3A%2F%2Fwww.ycloud.com%2Fconsole%2F%23%2Fapp%2Fdashboard%2FgetStarted) your YCloud account.
+
+### Step 2: Create a WABA
+
+Follow the guide to [create a WhatsApp Business API account](/quick-start/create-whatsapp-account).
+
+### Step 3: Create an authentication message template
+
+WhatsApp provides fixed preset text for authentication templates. The template structure is:
+
+- `<VERIFICATION_CODE> is your verification code.`
+- Security disclaimer (optional): `For your security, do not share this code.`
+- Expiration warning (optional): `This code will expire in <NUM_MINUTES> minutes.`
+- A copy code, one-tap, or zero-tap button
+
+<Note>
+Authentication templates do not support URLs, media, or emojis. Because the content is fully preset, the risk of these templates being suspended is greatly reduced.
+</Note>
+
+<Steps>
+  <Step title="Open the template editor">
+    In YCloud, go to **Home > Templates > + Add Template**.
+  </Step>
+  <Step title="Select category and name">
+    Select **Authentication** as the category. Name the template using only lowercase letters a–z, 0–9, and underscores. The name cannot be changed after submission.
+  </Step>
+  <Step title="Choose the sending method">
+    Select one of the following button types:
+
+    | Method | How it works | Limitations |
+    |---|---|---|
+    | **Copy code** | User clicks to copy the code and pastes it manually | No restrictions |
+    | **One-tap autofill** | Clicking the button opens your app and passes the code automatically | Android only (outside India); requires app code changes |
+    | **Zero-tap** | Code is auto-filled with no user action required | Android only (outside India); requires app code changes and handshake setup |
+
+    Zero-tap offers the best user experience and is recommended where supported.
+  </Step>
+  <Step title="Configure optional fields">
+    Optionally add a security disclaimer and expiration time. Setting a validity period (1–10 minutes) is recommended — if the message is not delivered within this period, you will not be charged and the customer will not see the message.
+  </Step>
+  <Step title="Submit the template">
+    Click **Submit Template**. Authentication templates are typically approved within a few minutes and will show **Active - Quality Pending** when ready to send.
+  </Step>
+</Steps>
+
+### Step 4: Send OTP messages via API
+
+Send authentication messages using the [YCloud API](https://docs.ycloud.com/reference/whatsapp_message-send-directly#/). Refer to the [WhatsApp Messaging Examples](https://docs.ycloud.com/reference/whatsapp-messaging-examples) for request samples.
+
+### Step 5: Receive webhook notifications
+
+<Steps>
+  <Step title="Configure a webhook endpoint">
+    In YCloud, go to **Developers > Webhooks** and add your callback URL. Message status updates will be posted to this endpoint.
+  </Step>
+  <Step title="Monitor OTP delivery status">
+    Each sent message generates webhook events with the following statuses:
+
+    | Status | Description |
+    |---|---|
+    | `sent` | Message is in transit within WhatsApp's systems |
+    | `delivered` | Message delivered to the user's device |
+    | `read` | Message read by the user (only if read receipts are enabled) |
+    | `failed` | Delivery failed; the failure reason is included in the callback |
+  </Step>
+</Steps>
+
+## Best practices
+
+### Front-end interface design
+
+| Solution | When to use |
+|---|---|
+| Send via WhatsApp by default; fall back to SMS on failure | Audience concentrated in high-coverage regions (Indonesia, India, Brazil, Colombia) |
+| Let users choose the delivery channel | Audience spans multiple countries or low-coverage regions |
+
+### Check whether WhatsApp is installed
+
+You can detect whether the user has WhatsApp installed on the same device before sending. If WhatsApp is not found, fall back to SMS.
+
+```kotlin kotlin
+fun PackageManager.isPackageInstalled(packageName: String): Boolean {
+  return try {
+    getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
+    true
+  } catch (e: NameNotFoundException) {
+    false
+  }
+}
+
+fun isWhatsAppInstalled(): Boolean {
+    val whatsAppPackageName = "com.whatsapp"
+    val whatsAppBusinessPackageName = "com.whatsapp.w4b"
+    return packageManager.isPackageInstalled(whatsAppPackageName) ||
+           packageManager.isPackageInstalled(whatsAppBusinessPackageName)
+}
+```
+
+For iOS, use [`canOpenURL`](https://developer.apple.com/documentation/uikit/uiapplication/1622952-canopenurl).
+
+### Set up an auto-resend policy
+
+1. **Immediate SMS fallback on failure (highly recommended)** — If a `failed` status is received, immediately resend the OTP via SMS.
+2. **SMS fallback on delayed delivery (optional)** — If a `sent` status does not advance to `delivered` within a timeout window (15–60 seconds recommended), automatically resend via SMS.
+
+## Special method: inbound verification
+
+In this approach, the user initiates the conversation by sending a message to your number, completing verification through an inbound message. Benefits include:
+
+- **Lower cost** — User-initiated conversations are charged at a lower rate than business-initiated ones (for example, at least one-third cheaper in Indonesia).
+- **24-hour free interaction window** — Because the user initiated the conversation, you can send follow-up messages within 24 hours at no additional charge.

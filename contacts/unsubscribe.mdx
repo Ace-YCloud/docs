@@ -1,0 +1,73 @@
+---
+title: "Unsubscribe List"
+description: "How opt-outs work in YCloud, how to manage the unsubscribe list, and compliance best practices for WhatsApp marketing."
+---
+
+The unsubscribe list holds phone numbers that have opted out of receiving marketing messages from your business. YCloud automatically excludes these contacts from future campaigns — you do not need to filter them out manually.
+
+## How opt-outs work
+
+A contact can be added to your unsubscribe list in two ways:
+
+1. **Automatically** — YCloud can detect opt-out keywords in incoming WhatsApp messages (such as "STOP", "Unsubscribe", or equivalents in other languages) and add the sender to the unsubscribe list automatically. This requires a chatbot or automation to be configured for keyword detection.
+
+2. **Manually** — You or your team can add a phone number directly from the **Contact > Unsubscribe** page.
+
+<Warning>
+Failing to honour opt-out requests increases your complaint rate. A high complaint rate degrades your WhatsApp phone number quality score and can result in reduced messaging limits or account suspension. Always respect opt-outs promptly.
+</Warning>
+
+## Manually add an unsubscribed contact
+
+<Steps>
+  <Step title="Navigate to the Unsubscribe page">
+    Go to **Contact > Unsubscribe**.
+  </Step>
+  <Step title="Add the phone number">
+    Click **+ Add Phone Number**, enter the phone number in international format, and click **Add**.
+  </Step>
+</Steps>
+
+## Delete a contact from the unsubscribe list
+
+If a contact requests to be re-added to your marketing list (re-subscribes), you can remove them from the unsubscribe list.
+
+Navigate to **Contact > Unsubscribe**, find the phone number in the list, and click **Action > Delete**.
+
+<Note>
+Deleting a contact from the unsubscribe list does not re-subscribe them automatically. Make sure you have documented the contact's re-subscription consent before removing them.
+</Note>
+
+## Export the unsubscribe list
+
+Navigate to **Contact > Unsubscribe** and click **Export** to download the full list as a CSV file.
+
+## Opt-in and opt-out compliance
+
+### Collecting opt-ins
+
+WhatsApp requires businesses to obtain consent (opt-in) before sending marketing messages. Common opt-in methods include:
+
+- A consent checkbox on your website or app during registration
+- An SMS or in-app message asking the customer to confirm
+- A paper form signed by the customer
+- An inbound WhatsApp conversation initiated by the customer
+- An Interactive Voice Response (IVR) flow
+
+The most effective approach is to prompt users for consent at the point where they register or interact with your product, so they have a clear expectation of receiving messages.
+
+### Handling opt-outs
+
+<Tip>
+Include opt-out instructions in the first marketing message a customer receives from you, and again after a long gap between messages. You do not need to include it in every message.
+</Tip>
+
+Best practices for opt-outs:
+
+- **Respect opt-out requests immediately.** All your WhatsApp numbers should stop sending marketing messages to opted-out contacts.
+- **Send a confirmation reply.** Acknowledge the opt-out and optionally ask for feedback on why the customer chose to unsubscribe.
+- **Do not include opt-out instructions in every message.** Doing so can prompt unnecessary opt-outs. Include them selectively — in your first message, in the first message after a long gap, or if sending to previously unsubscribed contacts.
+
+### Why complaint rate matters
+
+When users block or report your business account, WhatsApp records a complaint. If your complaint rate falls below Meta's quality threshold over time, your account will face sending restrictions. In severe cases the account can be banned. Proactively managing opt-outs is the primary way to keep your complaint rate low.

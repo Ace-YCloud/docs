@@ -1,0 +1,159 @@
+---
+title: "Voice"
+description: "Deliver one-time passcodes and verification codes via automated voice calls."
+---
+
+The YCloud Voice API sends automated voice calls to phone numbers. The recipient hears a text-to-speech message reading out a numeric code. This is commonly used as a fallback for SMS OTP delivery.
+
+## Endpoints
+
+| Method | Path | Description |
+| ------ | ---- | ----------- |
+| `POST` | `/voice` | Send a voice code |
+| `GET`  | `/voice` | List voice records |
+
+---
+
+## Send a voice code
+
+`POST https://api.ycloud.com/v2/voice`
+
+Places an automated call that reads a verification code aloud to the recipient.
+
+### Request parameters
+
+<ParamField body="to" type="string" required>
+  The recipient's phone number in E.164 format (e.g., `+14155552671`).
+</ParamField>
+
+<ParamField body="verificationCode" type="string" required>
+  The numeric code to read aloud. Recommended length: 4–8 digits.
+</ParamField>
+
+<ParamField body="language" type="string">
+  The language for the text-to-speech message (e.g., `en`, `zh`, `es`). Defaults to `en`.
+</ParamField>
+
+<ParamField body="externalId" type="string">
+  Your own identifier for this call, used for deduplication and tracking.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://api.ycloud.com/v2/voice \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "to": "+14155552671",
+    "verificationCode": "847261",
+    "language": "en"
+  }'
+```
+
+```javascript Node.js
+const response = await fetch('https://api.ycloud.com/v2/voice', {
+  method: 'POST',
+  headers: {
+    'X-API-Key': 'YOUR_API_KEY',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    to: '+14155552671',
+    verificationCode: '847261',
+    language: 'en',
+  }),
+});
+const voice = await response.json();
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    'https://api.ycloud.com/v2/voice',
+    headers={
+        'X-API-Key': 'YOUR_API_KEY',
+        'Content-Type': 'application/json',
+    },
+    json={
+        'to': '+14155552671',
+        'verificationCode': '847261',
+        'language': 'en',
+    },
+)
+```
+
+</CodeGroup>
+
+### Response fields
+
+<ResponseField name="id" type="string">
+  Unique voice record ID.
+</ResponseField>
+
+<ResponseField name="to" type="string">
+  The recipient's phone number.
+</ResponseField>
+
+<ResponseField name="verificationCode" type="string">
+  The code that was read aloud.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Call status: `accepted`, `calling`, `answered`, `completed`, `failed`.
+</ResponseField>
+
+<ResponseField name="duration" type="number">
+  Call duration in seconds (set after the call completes).
+</ResponseField>
+
+<ResponseField name="totalPrice" type="number">
+  The cost charged for this call.
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Currency of the charge (e.g., `USD`).
+</ResponseField>
+
+<ResponseField name="createTime" type="string">
+  ISO 8601 timestamp when the call was initiated.
+</ResponseField>
+
+---
+
+## List voice records
+
+`GET https://api.ycloud.com/v2/voice`
+
+Returns a paginated list of voice call records.
+
+### Query parameters
+
+<ParamField query="pageSize" type="number" default="20">
+  Number of records per page (1–100).
+</ParamField>
+
+<ParamField query="pageToken" type="string">
+  Pagination cursor from the previous response's `nextPageToken`.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl "https://api.ycloud.com/v2/voice?pageSize=20" \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+```javascript Node.js
+const response = await fetch('https://api.ycloud.com/v2/voice?pageSize=20', {
+  headers: { 'X-API-Key': 'YOUR_API_KEY' },
+});
+const { items, nextPageToken } = await response.json();
+```
+
+</CodeGroup>
+
+<Tip>
+  If a recipient does not answer a voice call, consider implementing a retry with a short delay, or offer an SMS fallback using the [SMS API](/api-reference/sms).
+</Tip>

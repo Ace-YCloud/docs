@@ -1,0 +1,208 @@
+---
+title: "Webhook endpoints"
+description: "Create, manage, and rotate secrets for webhook endpoints that receive YCloud event notifications."
+---
+
+Webhook endpoints are HTTPS URLs that YCloud sends event notifications to. Use this API to programmatically manage your endpoint configurations — no dashboard required.
+
+## Endpoints
+
+| Method   | Path | Description |
+| -------- | ---- | ----------- |
+| `POST`   | `/webhookEndpoints` | Create a webhook endpoint |
+| `GET`    | `/webhookEndpoints` | List webhook endpoints |
+| `GET`    | `/webhookEndpoints/{id}` | Retrieve a webhook endpoint |
+| `PATCH`  | `/webhookEndpoints/{id}` | Update a webhook endpoint |
+| `DELETE` | `/webhookEndpoints/{id}` | Delete a webhook endpoint |
+| `POST`   | `/webhookEndpoints/{id}/rotateSecret` | Rotate the endpoint secret |
+
+---
+
+## Create a webhook endpoint
+
+`POST https://api.ycloud.com/v2/webhookEndpoints`
+
+### Request parameters
+
+<ParamField body="url" type="string" required>
+  The HTTPS URL that will receive webhook event notifications.
+</ParamField>
+
+<ParamField body="enabledEvents" type="array" required>
+  Array of event type strings to subscribe to. Use `["*"]` to subscribe to all events.
+</ParamField>
+
+<ParamField body="description" type="string">
+  A human-readable description for this endpoint.
+</ParamField>
+
+<ParamField body="status" type="string">
+  Whether the endpoint is active. One of `enabled` or `disabled`. Defaults to `enabled`.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://api.ycloud.com/v2/webhookEndpoints \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://your-server.com/webhooks/ycloud",
+    "enabledEvents": [
+      "whatsapp.message.updated",
+      "whatsapp.inbound_message.received",
+      "contact.created"
+    ],
+    "description": "Production webhook"
+  }'
+```
+
+```javascript Node.js
+const response = await fetch(
+  'https://api.ycloud.com/v2/webhookEndpoints',
+  {
+    method: 'POST',
+    headers: {
+      'X-API-Key': 'YOUR_API_KEY',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      url: 'https://your-server.com/webhooks/ycloud',
+      enabledEvents: [
+        'whatsapp.message.updated',
+        'whatsapp.inbound_message.received',
+        'contact.created',
+      ],
+      description: 'Production webhook',
+    }),
+  }
+);
+const endpoint = await response.json();
+// Save endpoint.secret — it is only returned once on creation.
+```
+
+</CodeGroup>
+
+### Response fields
+
+<ResponseField name="id" type="string">
+  Unique webhook endpoint ID.
+</ResponseField>
+
+<ResponseField name="url" type="string">
+  The endpoint URL.
+</ResponseField>
+
+<ResponseField name="enabledEvents" type="array">
+  The list of subscribed event types.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Whether the endpoint is `enabled` or `disabled`.
+</ResponseField>
+
+<ResponseField name="secret" type="string">
+  The signing secret for verifying payload signatures. **Only returned on creation and after rotation.** Store this securely.
+</ResponseField>
+
+<ResponseField name="createTime" type="string">
+  ISO 8601 timestamp when the endpoint was created.
+</ResponseField>
+
+<Warning>
+  The `secret` field is only present in the response when the endpoint is first created or when the secret is rotated. YCloud does not expose it again. Store it securely immediately.
+</Warning>
+
+---
+
+## List webhook endpoints
+
+`GET https://api.ycloud.com/v2/webhookEndpoints`
+
+<CodeGroup>
+
+```bash cURL
+curl https://api.ycloud.com/v2/webhookEndpoints \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+```javascript Node.js
+const response = await fetch('https://api.ycloud.com/v2/webhookEndpoints', {
+  headers: { 'X-API-Key': 'YOUR_API_KEY' },
+});
+```
+
+</CodeGroup>
+
+---
+
+## Update a webhook endpoint
+
+`PATCH https://api.ycloud.com/v2/webhookEndpoints/{id}`
+
+Updates the URL, enabled events, description, or status of an endpoint. Only include the fields you want to change.
+
+<CodeGroup>
+
+```bash cURL
+curl -X PATCH https://api.ycloud.com/v2/webhookEndpoints/whe_01h9xyz \
+  -H "X-API-Key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "enabledEvents": ["*"],
+    "status": "enabled"
+  }'
+```
+
+</CodeGroup>
+
+---
+
+## Delete a webhook endpoint
+
+`DELETE https://api.ycloud.com/v2/webhookEndpoints/{id}`
+
+Permanently removes the endpoint. YCloud will stop sending events to this URL immediately.
+
+<CodeGroup>
+
+```bash cURL
+curl -X DELETE https://api.ycloud.com/v2/webhookEndpoints/whe_01h9xyz \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+</CodeGroup>
+
+---
+
+## Rotate the endpoint secret
+
+`POST https://api.ycloud.com/v2/webhookEndpoints/{id}/rotateSecret`
+
+Generates a new signing secret for the endpoint. The old secret is invalidated immediately.
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST \
+  https://api.ycloud.com/v2/webhookEndpoints/whe_01h9xyz/rotateSecret \
+  -H "X-API-Key: YOUR_API_KEY"
+```
+
+```javascript Node.js
+const response = await fetch(
+  'https://api.ycloud.com/v2/webhookEndpoints/whe_01h9xyz/rotateSecret',
+  {
+    method: 'POST',
+    headers: { 'X-API-Key': 'YOUR_API_KEY' },
+  }
+);
+const { secret } = await response.json();
+// Update your application configuration with the new secret.
+```
+
+</CodeGroup>
+
+<Tip>
+  Rotate your webhook secret periodically, or immediately if you suspect it has been compromised. Update your signature verification logic with the new secret before rotating to avoid downtime.
+</Tip>
